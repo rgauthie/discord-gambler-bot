@@ -75,7 +75,7 @@ function getResFromFile(path) {
 
 function getWinMsg() {
 
-    var poss = ["AND THE STUPID FUCKING WINNER IS ", "POG, YOU WIN ", "OOWOO YOU WON ", "Pogggggers "];
+    var poss = ["AND THE STUPID FUCKING WINNER IS ", "POG, YOU WIN ", "UwU YOU WON ", "Pogggggers "];
     return poss[Math.floor(Math.random() * poss.length)];
 
 }
@@ -150,15 +150,16 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             msg += '\n\nPlay a tie breaker using the command $roll !';
                         
                         } else {
-                            var winMsg = getWinMsg()
+                            var winMsg = getWinMsg();
                             msg += (winMsg + winner[0].user + '!\nThe rest of you are malding manlets');
 
-                        }
+                        }0
 
                         bot.sendMessage({
                             to: channelID,
                             message: msg
-                        });}, 15000);
+                        });
+                    }, 15000);
                 }
                 break;
             case 'join':
@@ -178,7 +179,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 }
                 break;
             case 'help':
-                var msg = 'Gambler commands:\n\'$roll\' - Use to roll a random number between 0 and 100.\n\'$multi\' - Use to start a party roll, allows 15 seconds for any members to lock in their roll.\n\'$join\' - Used to lock in a roll during the 15 second party roll lock-in phase.\n\'$help\' - You\'re looking at it! Lists gambler commands and their uses.';
+                var msg = 'Gambler commands:\n\n\'$roll\' - Use to roll a random number between 0 and 100.\n\'$multi\' - Use to start a party roll, allows 15 seconds for any members to lock in their roll.\n\'$join\' - Used to lock in a roll during the 15 second party roll lock-in phase.\n\'$help\' - You\'re looking at it! Lists gambler commands and their uses.';
                 bot.sendMessage({
                     to: channelID,
                     message: msg
