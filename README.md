@@ -1,2 +1,2 @@
-# discord-gambling-bot
+# discord-gambler-bot
 Discord Gambling Bot
