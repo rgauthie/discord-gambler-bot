@@ -1,0 +1,11 @@
+{
+	"name": "gambler-bot",
+	"version": "1.0.0",
+	"description": "Roll the dice",
+	"main": "bot.js",
+	"author": "Reed Gauthier",
+	"dependencies": {
+		"discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+		"winston": "^3.2.1"
+	}
+}
