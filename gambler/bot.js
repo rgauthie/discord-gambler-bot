@@ -113,7 +113,7 @@ async function execute(message) {
 function playMultiSound(flag) {
 	if (flag == "start") {
 		const dispatcher = connection
-			.play("./" + getStartAudio()).on("error", error => console.error(error);
+			.play("./" + getStartAudio()).on("error", error => console.error(error));
 	} else {
 		const dispatcher = connection
 			.play("./" + getStartAudio()).on("finish", () => {
