@@ -97,22 +97,10 @@ function getWinAudio() {
     return poss[Math.floor(Math.random() * poss.length)];
 }
 
-async function execute(message) {
-	const channel = message.member.voice.channel;
-	if(!channel) {
-		return console.log("not in vc");
-	}
-
-	try {
-		var connection = await channel.join();
-	} catch (err) {
-		return console.log(err);
-	}
-} 
-
 function playMultiSound(flag) {
+
 	if (flag == "start") {
-		const dispatcher = connection
+		const dispatcher = 
 			.play("./" + getStartAudio()).on("error", error => console.error(error));
 	} else {
 		const dispatcher = connection
@@ -163,7 +151,16 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: "Roll already initiated! Join the roll with $join"
                     });
                 } else {
-                	execute(message);
+                	const channel = message.member.voice.channel;
+					if(!channel) {
+						return console.log("not in vc");
+					}
+
+					try {
+						var connection = await channel.join();
+					} catch (err) {
+						return console.log(err);
+					}
                 	playMultiSound("start");
                 	playMultiSound(message.guild)
                     bot.sendMessage({
