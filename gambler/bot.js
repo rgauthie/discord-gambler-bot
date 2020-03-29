@@ -151,7 +151,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: "Roll already initiated! Join the roll with $join"
                     });
                 } else {
-                	const channel = user.voice.channel;
+                	const channel = user.voiceChannel;
 					if(!channel) {
 						return console.log("not in vc");
 					}
