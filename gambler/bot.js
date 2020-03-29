@@ -97,18 +97,18 @@ function getWinAudio() {
     return poss[Math.floor(Math.random() * poss.length)];
 }
 
-function playMultiSound(flag) {
+// function playMultiSound(flag) {
 	
-	if (flag == "start") {
-		const dispatcher = connection
-			.play("./" + getStartAudio()).on("error", error => console.error(error));
-	} else {
-		const dispatcher = connection
-			.play("./" + getStartAudio()).on("finish", () => {
-				channel.leave();
-			}).on("error", error => console.error(error));
-	}
-}
+// 	if (flag == "start") {
+// 		const dispatcher = connection
+// 			.play("./" + getStartAudio()).on("error", error => console.error(error));
+// 	} else {
+// 		const dispatcher = connection
+// 			.play("./" + getStartAudio()).on("finish", () => {
+// 				channel.leave();
+// 			}).on("error", error => console.error(error));
+// 	}
+// }
 
 
 // Configure logger settings
@@ -145,24 +145,24 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'multi':
-                if (checkMulti()) {
-                    bot.sendMessage({
-                        to: channelID,
-                        message: "Roll already initiated! Join the roll with $join"
-                    });
-                } else {
-                	const channel = user.voiceChannel;
-					if(!channel) {
-						return console.log("not in vc");
-					}
+     //            if (checkMulti()) {
+     //                bot.sendMessage({
+     //                    to: channelID,
+     //                    message: "Roll already initiated! Join the roll with $join"
+     //                });
+     //            } else {
+     //            	const channel = user.voiceChannel;
+					// if(!channel) {
+					// 	return console.log("not in vc");
+					// }
 
-					try {
-						var connection = channel.join();
-					} catch (err) {
-						return console.log(err);
-					}
-                	playMultiSound("start");
-                	playMultiSound(message.guild)
+					// try {
+					// 	var connection = channel.join();
+					// } catch (err) {
+					// 	return console.log(err);
+					// }
+     //            	playMultiSound("start");
+
                     bot.sendMessage({
                         to: channelID,
                         message: 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type $join'
@@ -198,7 +198,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             msg += (winMsg + winner[0].user + '!\n' + getLossMsg());
 
                         }
-                        playMultiSound("win");
+                        // playMultiSound("win");
                         bot.sendMessage({
                             to: channelID,
                             message: msg
