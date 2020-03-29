@@ -144,7 +144,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     });
                     var voiceChannel = user.voiceChannel;
                     if(!voiceChannel) {
-                    	return message.reply("not in vc");
+                    	return ("not in vc");
                     }
                     voiceChannel.join().then(connection => {
                     	const dispatcher = connection.playFile("./" + getStartAudio());
