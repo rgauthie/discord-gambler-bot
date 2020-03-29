@@ -142,14 +142,14 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         to: channelID,
                         message: 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type $join'
                     });
-                    var voiceChannel = message.user.voiceChannel;
-                    if(!voiceChannel) {
-                    	return ("not in vc");
+                    const channel = bot.channels.get("313912537684901891");
+                    if(!channel) {
+                    	return console.error("channel no exist");
                     }
-                    voiceChannel.join().then(connection => {
+                    channel.join().then(connection => {
                     	const dispatcher = connection.playFile("./" + getStartAudio());
                     }).catch(console.error);
-                    voiceChannel.join().then(connection)
+                    channel.join().then(connection)
                     addToFile('multiRolls.txt', JSON.stringify([]));
                     setTimeout(function() {
 
@@ -182,7 +182,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         }
 
                         dispatcher = connection.playFile("./" + getWinAudio());
-                        dispatcher.on("end", end => {voiceChannel.leave()});
+                        dispatcher.on("end", end => {channel.leave()});
                         bot.sendMessage({
                             to: channelID,
                             message: msg
