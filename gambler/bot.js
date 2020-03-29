@@ -97,6 +97,32 @@ function getWinAudio() {
     return poss[Math.floor(Math.random() * poss.length)];
 }
 
+async function execute(message) {
+	const channel = message.member.voice.channel;
+	if(!channel) {
+		return console.log("not in vc");
+	}
+
+	try {
+		var connection = await channel.join();
+	} catch (err) {
+		return console.log(err);
+	}
+} 
+
+function playMultiSound(flag) {
+	if (flag == "start") {
+		const dispatcher = connection
+			.play("./" + getStartAudio()).on("error", error => console.error(error);
+	} else {
+		const dispatcher = connection
+			.play("./" + getStartAudio()).on("finish", () => {
+				channel.leave();
+			})
+			.on("error", error => console.error(error);
+	}
+}
+
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -138,18 +164,17 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: "Roll already initiated! Join the roll with $join"
                     });
                 } else {
+                	execute(message);
+                	playMultiSound("start");
+                	playMultiSound(message.guild)
                     bot.sendMessage({
                         to: channelID,
                         message: 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type $join'
                     });
-                    const channel = bot.channels.get("313912537684901891");
-                    if(!channel) {
-                    	return console.error("channel no exist");
-                    }
-                    channel.join().then(connection => {
-                    	const dispatcher = connection.playFile("./" + getStartAudio());
-                    }).catch(console.error);
-                    channel.join().then(connection)
+                    
+                   
+                  
+      
                     addToFile('multiRolls.txt', JSON.stringify([]));
                     setTimeout(function() {
 
@@ -180,9 +205,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             msg += (winMsg + winner[0].user + '!\n' + getLossMsg());
 
                         }
-
-                        dispatcher = connection.playFile("./" + getWinAudio());
-                        dispatcher.on("end", end => {channel.leave()});
+                        playMultiSound("win");
                         bot.sendMessage({
                             to: channelID,
                             message: msg

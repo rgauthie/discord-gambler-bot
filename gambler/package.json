@@ -5,8 +5,12 @@
 	"main": "bot.js",
 	"author": "Reed Gauthier",
 	"dependencies": {
+		"@discordjs/opus": "^0.1.0",
 		"discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+		"discord.js": "^12.1.1",
 		"ffmpeg": "0.0.4",
-		"winston": "^3.2.1"
+		"fluent-ffmpeg": "^2.1.2",
+		"winston": "^3.2.1",
+		"ytdl-core": "^2.0.1"
 	}
 }
