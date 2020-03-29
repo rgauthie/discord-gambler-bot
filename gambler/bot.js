@@ -97,7 +97,7 @@ function getWinAudio() {
     return poss[Math.floor(Math.random() * poss.length)];
 }
 
-function playMultiSound(flag) {
+async function playMultiSound(flag) {
 	const channel = message.member.voice.channel;
 	if(!channel) {
 		return console.log("not in vc");
