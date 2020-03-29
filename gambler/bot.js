@@ -98,16 +98,7 @@ function getWinAudio() {
 }
 
 function playMultiSound(flag) {
-	const channel = message.member.voice.channel;
-	if(!channel) {
-		return console.log("not in vc");
-	}
-
-	try {
-		var connection = channel.join();
-	} catch (err) {
-		return console.log(err);
-	}
+	
 	if (flag == "start") {
 		const dispatcher = connection
 			.play("./" + getStartAudio()).on("error", error => console.error(error));
@@ -166,7 +157,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 					}
 
 					try {
-						var connection = await channel.join();
+						var connection = channel.join();
 					} catch (err) {
 						return console.log(err);
 					}
@@ -177,9 +168,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type $join'
                     });
                     
-                   
-                  
-      
                     addToFile('multiRolls.txt', JSON.stringify([]));
                     setTimeout(function() {
 
