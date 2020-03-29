@@ -98,9 +98,18 @@ function getWinAudio() {
 }
 
 function playMultiSound(flag) {
+	const channel = message.member.voice.channel;
+	if(!channel) {
+		return console.log("not in vc");
+	}
 
+	try {
+		var connection = await channel.join();
+	} catch (err) {
+		return console.log(err);
+	}
 	if (flag == "start") {
-		const dispatcher = 
+		const dispatcher = connection
 			.play("./" + getStartAudio()).on("error", error => console.error(error));
 	} else {
 		const dispatcher = connection
