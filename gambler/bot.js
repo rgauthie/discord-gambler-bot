@@ -142,7 +142,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         to: channelID,
                         message: 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type $join'
                     });
-                    var voiceChannel = user.voiceChannel;
+                    var voiceChannel = message.user.voiceChannel;
                     if(!voiceChannel) {
                     	return ("not in vc");
                     }
