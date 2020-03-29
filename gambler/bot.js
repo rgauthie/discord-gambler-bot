@@ -118,8 +118,7 @@ function playMultiSound(flag) {
 		const dispatcher = connection
 			.play("./" + getStartAudio()).on("finish", () => {
 				channel.leave();
-			})
-			.on("error", error => console.error(error);
+			}).on("error", error => console.error(error));
 	}
 }
 
