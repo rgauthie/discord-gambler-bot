@@ -145,13 +145,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'multi':
-     //            if (checkMulti()) {
-     //                bot.sendMessage({
-     //                    to: channelID,
-     //                    message: "Roll already initiated! Join the roll with $join"
-     //                });
-     //            } else {
-     //            	const channel = user.voiceChannel;
+                if (checkMulti()) {
+                    bot.sendMessage({
+                        to: channelID,
+                        message: "Roll already initiated! Join the roll with $join"
+                    });
+                } else {
+                	//const channel = user.voiceChannel;
 					// if(!channel) {
 					// 	return console.log("not in vc");
 					// }
