@@ -80,6 +80,23 @@ function getWinMsg() {
 
 }
 
+function getLossMsg() {
+
+    var poss = ["The rest of you are malding manlets"];
+    return poss[Math.floor(Math.random() * poss.length)];
+
+}
+
+function getStartAudio() {
+	var poss = ["mountAndBlade.mp3"];
+    return poss[Math.floor(Math.random() * poss.length)];
+}
+
+function getWinAudio() {
+	var poss = ["chaturbateDing.mp3"];
+    return poss[Math.floor(Math.random() * poss.length)];
+}
+
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -125,8 +142,17 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         to: channelID,
                         message: 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type $join'
                     });
+                    var voiceChannel = message.member.voiceChannel;
+                    if(!voiceChannel) {
+                    	return message.reply("not in vc");
+                    }
+                    voiceChannel.join().then(connection => {
+                    	const dispatcher = connection.playFile("./" + getStartAudio());
+                    }).catch(console.error);
+                    voiceChannel.join().then(connection)
                     addToFile('multiRolls.txt', JSON.stringify([]));
-                    setTimeout(function() { 
+                    setTimeout(function() {
+
                         var result = playMulti(); 
                         result = result.split('\n');
                         result.shift();
@@ -151,10 +177,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         
                         } else {
                             var winMsg = getWinMsg();
-                            msg += (winMsg + winner[0].user + '!\nThe rest of you are malding manlets');
+                            msg += (winMsg + winner[0].user + '!\n' + getLossMsg());
 
-                        }0
+                        }
 
+                        dispatcher = connection.playFile("./" + getWinAudio());
+                        dispatcher.on("end", end => {voiceChannel.leave()});
                         bot.sendMessage({
                             to: channelID,
                             message: msg
