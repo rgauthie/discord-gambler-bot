@@ -221,7 +221,7 @@ function getWinAudio() {
 function isNumber(str) {
   if (typeof str != "string") return false // we only process strings!
   // could also coerce to string: str = ""+str
-  return !isNaN(str) && !isNaN(parseFloat(str))
+  return !isNaN(str) && !isNaN(parseFloat(str)) && (parseFloat(str) >= 0)
 }
 
 
