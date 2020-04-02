@@ -343,16 +343,16 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        payUser(winner, amtWon);
 	                        console.log(getResFromFile('pogPoints.txt'));
 	                        
-	                        for (i = 0; i < result.length; i++) {
-	                            var curr = JSON.parse(result[i]);
-	                            console.log("user take from:  " + curr);
-	                            var currUser = curr.user;
-	                            console.log("take from userid: " + currUser);
-	                            if (currUser != winner) {
-	                            	console.log(getResFromFile('pogPoints.txt'));
-	                            	takeFromUser(currUser, bettingAmt);
-	                            }
-	                        }
+	                        // for (i = 0; i < result.length; i++) {
+	                        //     var curr = JSON.parse(result[i]);
+	                        //     console.log("user take from:  " + curr);
+	                        //     var currUser = curr.user;
+	                        //     console.log("take from userid: " + currUser);
+	                        //     if (currUser != winner) {
+	                        //     	console.log(getResFromFile('pogPoints.txt'));
+	                        //     	takeFromUser(currUser, bettingAmt);
+	                        //     }
+	                        // }
 	                        
 
 	                    }, 15000);
