@@ -294,20 +294,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 				        //     playing.pipe(stream, {end: false});
 				        // });
             //     	});
-
-
-
-
-
-
-
-
-
-
-
-
-				       
-
  					if (checkValidBettingAmt(parseFloat(bettingAmt), userID)) {
  						if (bettingAmt == 0) {
  							var msg = 'Roll ends in 15 seconds, lock in your spot! -> type \'$join\'\nCURRENT BET: NO BET';
