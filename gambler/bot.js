@@ -341,6 +341,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        var winner = winner[0].user;
 	                        var amtWon = bettingAmt * (result.length - 1);
 	                        payUser(winner, amtWon);
+	                        console.log(getResFromFile('pogPoints.txt'));
 	                        
 	                        for (i = 0; i < result.length; i++) {
 	                            var curr = JSON.parse(result[i]);
