@@ -161,6 +161,12 @@ function getWinAudio() {
     return poss[Math.floor(Math.random() * poss.length)];
 }
 
+function isNumber(str) {
+  if (typeof str != "string") return false // we only process strings!
+  // could also coerce to string: str = ""+str
+  return !isNaN(str) && !isNaN(parseFloat(str))
+}
+
 
 // function playMultiSound(flag) {
 	
@@ -198,8 +204,19 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var args = message.substring(1).trim().split(' ');
         console.log(args);
         var cmd = args[0];
-        if (cmd == 'multi') {
-        	var bettingAmt = parseInt(args[1]);
+        if (cmd == 'multi' && args.length > 1) {
+        	var possBet = args[1];
+        	if isNumber(possBet) {
+        		var bettingAmt = parseFloat(possBet);
+        	} else {
+        		bot.sendMessage({
+                        to: channelID,
+                        message: '\'possBet.toString()\'  is not a valid betting amount. Try to bet again!'
+                });
+                break;
+        	}
+   		} else if (cmd == 'multi' && args.length == 1) {
+   			var bettingAmt = 0;
    		}
 
         args = args.splice(1);
@@ -232,7 +249,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 					// }
                  	//playMultiSound("start");
 
- 					if (checkValidBettingAmt(parseInt(bettingAmt), userID)) {
+ 					if (checkValidBettingAmt(parseFloat(bettingAmt), userID)) {
 	                    bot.sendMessage({
 	                        to: channelID,
 	                        message: 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type \'$join\'\nCURRENT BET: ₽' + bettingAmt + 'PP'
