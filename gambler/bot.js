@@ -337,7 +337,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'bank-all':
             	var balances = getAllBalances();
             	var msg = 'PoggyBank balances:\n-------------------\n';
-            	var userIDs= balances.keys();
+            	var userIDs= Object.keys(balances);
 
             	for (i=0; i < userIDs.length; i++) {
             		var curr = userIDs[i];
