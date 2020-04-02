@@ -349,15 +349,15 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        if (tieBreakerNeeded) {
 
 	                        	while (tieBreakerNeeded) {
-	                        		console.log('rolls:  ' + rolls);
+	                        		console.log('rolls:  ' + JSON.stringify(rolls));
 	                        		for (i = 0; i < tied; i++) {
 	                        			var currUser = tied[i];
 	                        			var currRoll = Math.floor(Math.random() * 2);
 	                        			rolls[currUser] = currRoll;
 	                        		}
-	                        		console.log('rolls after re:    ' + rolls);
+	                        		console.log('rolls after re:    ' + JSON.stringify(rolls));
 	                        		winner = getWinner(rolls);
-	                        		console.log('winRes: ' + winner);
+	                        		console.log('winRes: ' + JSON.stringify(winner));
 	                        		if (winner.length == 1) {
 	                        			break;
 	                        		}
