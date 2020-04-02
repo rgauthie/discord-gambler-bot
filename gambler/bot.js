@@ -8,7 +8,7 @@ function checkMulti() {
     res = getResFromFile('multiRolls.txt');
     console.log(res.length);
     console.log(res);
-    if (res.length > 2) {
+    if (res.length != 0) {
          return true;
     } else {
         return false;
@@ -260,10 +260,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                    setTimeout(function() {
 
 	                        var result = playMulti(); 
-
+	                        console.log('result playMulti:    ' + result);
 	                        result = result.split('\n');
+	                        console.log('result split:    ' + result);
 	                        result.shift();
-	                        console.log('result:    ' + result);
+	                        console.log('result shift:    ' + result);
 
 	                        var rolls = [];
 	                        var msg = '';
