@@ -147,7 +147,7 @@ function getWinMsg() {
 
 function getLossMsg() {
 
-    var poss = ["The rest of you are malding manlets", "Fuck everyone else", "Everyone else is dumb as hell", "@EveryoneElse: No pog, no pawg"];
+    var poss = ["The rest of you are malding manlets", "Fuck everyone else", "Everyone else is dumb as hell", "Everyone else: No pog, no pawg."];
     return poss[Math.floor(Math.random() * poss.length)];
 
 }
