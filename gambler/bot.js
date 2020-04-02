@@ -446,14 +446,14 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             		var balance = balances[curr];
             		msg += (userName + '\'s balance: 	₽' + balance.toString() + 'PP\n');
             	}
-            	msg += '\nCURRENT EXCHANGE RATE: ₽10 / $1';
+            	msg += '\n-------------------\nCURRENT EXCHANGE RATE: ₽10 / $1';
             	bot.sendMessage({  
             		to: channelID,
             		message: msg
             	});
             	break;
             case 'help':
-                var msg = 'Gambler commands:\n\n\'$roll\' - Use to roll a random number between 0 and 100.\n\'$multi\' - Use to start a party roll, allows 15 seconds for any members to lock in their roll.\n\'$join\' - Used to lock in a roll during the 15 second party roll lock-in phase.\n\'$register\' - Used to register an account at PoggyBank.\n\'$bank\' - Used to display your PoggyBank account balance.\n\'$bank-all\' - Used to display the PoggyBank balance of all registered users.\n\'$help\' - You\'re looking at it! Lists gambler commands and their uses.';
+                var msg = 'Gambler commands:\n\n\'$roll\' - Use to roll a random number between 0 and 100.\n\'$multi\' - Use to start a party roll, allows 15 seconds for any members to lock in their roll.\n\'$multi xx\' - Similar to \'$multi\', but enter amount to bet as xx. All Users who enter the roll will bet that amount. Winner will receive total betting pool, loser(s) will lose amount of bet.\n\'$join\' - Used to lock in a roll during the 15 second party roll lock-in phase.\n\'$register\' - Used to register an account at PoggyBank.\n\'$bank\' - Used to display your PoggyBank account balance.\n\'$bank-all\' - Used to display the PoggyBank balance of all registered users.\n\'$help\' - You\'re looking at it! Lists gambler commands and their uses.';
                 bot.sendMessage({
                     to: channelID,
                     message: msg
