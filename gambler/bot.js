@@ -357,6 +357,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        		}
 	                        		console.log('rolls after re:    ' + rolls);
 	                        		winner = getWinner(rolls);
+	                        		console.log('winRes: ' + winner);
 	                        		if (winner.length == 1) {
 	                        			break;
 	                        		}
