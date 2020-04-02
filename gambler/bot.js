@@ -6,6 +6,7 @@ var fs = require('fs');
 
 function checkMulti() {
     res = getResFromFile('multiRolls.txt');
+    console.log(res.length);
     if (res.length != 0) {
          return true;
     } else {
@@ -200,6 +201,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         if (cmd == 'multi') {
         	var bettingAmt = parseInt(args[1]);
    		}
+
         args = args.splice(1);
         switch(cmd) {
             // !ping
