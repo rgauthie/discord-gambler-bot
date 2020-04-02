@@ -287,49 +287,20 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: 'Roll already initiated! Join the roll with \'$join\''
                     });
                 } else {
-                	var VCID = '313912537684901891';
-                	var startAudio = './' + getStartAudio();
-                	var winAudio = './' + getWinAudio();
+                	var VCID = findVoiceChannelOfUser(userID);
+                	var startAudio = getStartAudio();
+                	var winAudio = getWinAudio();
                 
-                	bot.joinVoiceChannel(VCID, function(err, events) {
-				        if (err) return console.error(err);
-				        // events.on('speaking', function(userID, SSRC, speakingBool) {
-				        //     console.log("%s is " + (speakingBool ? "now speaking" : "done speaking"), userID );
-				        // });
-				        bot.getAudioContext(VCID, function(err, stream) {
-				            if (err) return console.error(err);
-				            fs.createReadStream(startAudio).pipe(stream, {end: false});
-				            stream.on('done', function() {
-				                fs.createReadStream(startAudio).pipe(stream, {end: false});
-				            });
+                	bot.joinVoiceChannel(VCID, (err) => {
+                		if(err) return console.log(err);
+
+                		bot.getAudioContext(VCID, (err, stream) => {
+				            if (err) return console.log(err);
+				            playing = fs.createReadStream(startAudio);
+				            playing.pipe(stream, {end: false});
 				        });
-				    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-         
-                	//const channel = user.voiceChannel;
-					// if(!channel) {
-					// 	return console.log("not in vc");
-					// }
-
-					// try {
-					// 	var connection = channel.join();
-					// } catch (err) {
-					// 	return console.log(err);
-					// }
-                 	//playMultiSound("start");
+                	});
+				       
 
  					if (checkValidBettingAmt(parseFloat(bettingAmt), userID)) {
  						if (bettingAmt == 0) {
