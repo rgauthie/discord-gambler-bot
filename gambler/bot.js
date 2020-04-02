@@ -229,6 +229,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 					// 	return console.log(err);
 					// }
                  	//playMultiSound("start");
+
  					if (checkValidBettingAmt(parseInt(bettingAmt), userID)) {
 	                    bot.sendMessage({
 	                        to: channelID,
@@ -236,7 +237,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                    });
 	                    
 	                    addToFile('multiRolls.txt', JSON.stringify([]));
-	                    addToFile('multiRolls.txt', bettingAmt.toString())
+	                    addToFile('multiRolls.txt', '\n' + bettingAmt.toString());
 	                    setTimeout(function() {
 
 	                        var result = playMulti(); 
