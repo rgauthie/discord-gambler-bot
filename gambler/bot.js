@@ -221,18 +221,6 @@ function chooseAudioEncoder(list) {
 	return 'ffmpeg';
 }
 
-// function playMultiSound(flag) {
-	
-// 	if (flag == "start") {
-// 		const dispatcher = connection
-// 			.play("./" + getStartAudio()).on("error", error => console.error(error));
-// 	} else {
-// 		const dispatcher = connection
-// 			.play("./" + getStartAudio()).on("finish", () => {
-// 				channel.leave();
-// 			}).on("error", error => console.error(error));
-// 	}
-// }
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -289,23 +277,23 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: 'Roll already initiated! Join the roll with \'$join\''
                     });
                 } else {
-                	var VCID = '313912537684901891';
-                	var startAudio = getStartAudio();
-                	var winAudio = getWinAudio();
+            //     	var VCID = '313912537684901891';
+            //     	var startAudio = getStartAudio();
+            //     	var winAudio = getWinAudio();
                 
 
 
 
 
-                	bot.joinVoiceChannel(VCID, (err) => {
-                		if(err) return console.log(err);
+            //     	bot.joinVoiceChannel(VCID, (err) => {
+            //     		if(err) return console.log(err);
 
-                		bot.getAudioContext(VCID, (err, stream) => {
-				            if (err) return console.log(err);
-				            playing = fs.createReadStream(startAudio);
-				            playing.pipe(stream, {end: false});
-				        });
-                	});
+            //     		bot.getAudioContext(VCID, (err, stream) => {
+				        //     if (err) return console.log(err);
+				        //     playing = fs.createReadStream(startAudio);
+				        //     playing.pipe(stream, {end: false});
+				        // });
+            //     	});
 
 
 
