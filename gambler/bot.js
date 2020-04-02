@@ -206,7 +206,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var cmd = args[0];
         if (cmd == 'multi' && args.length > 1) {
         	var possBet = args[1];
-        	if isNumber(possBet) {
+        	if (isNumber(possBet)) {
         		var bettingAmt = parseFloat(possBet);
         	} else {
         		bot.sendMessage({
