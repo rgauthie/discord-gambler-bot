@@ -286,19 +286,39 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: 'Roll already initiated! Join the roll with \'$join\''
                     });
                 } else {
-                	var voiceChannel = bot.channels['313912537684901891'];
+                	var VCID = '313912537684901891';
+                	var song = './' + getStartAudio();
                 	
                 
-                	voiceChannel.join().then(connection =>{
-                		const dispatcher = connection.playFile('./' + getStartAudio());
-                		setTimeout(function() {
-                			dispatcher = connection.playFile('./' + getWinAudio());
-                			dispatcher.on('end', end => voiceChannel.leave());
-                		}, 14050);
+                	bot.joinVoiceChannel(VCID, function(err, events) {
+				        if (err) return console.error(err);
+				        events.on('speaking', function(userID, SSRC, speakingBool) {
+				            console.log("%s is " + (speakingBool ? "now speaking" : "done speaking"), userID );
+				        });
 
-                	}).catch(err => console.log(err));
+				        bot.getAudioContext(VCID, function(err, stream) {
+				            if (err) return console.error(err);
+				            fs.createReadStream(song).pipe(stream, {end: false});
+				            stream.on('done', function() {
+				                fs.createReadStream(song).pipe(stream, {end: false});
+				            });
+				        });
+				    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
          
-                	console.log(vc);
                 	//const channel = user.voiceChannel;
 					// if(!channel) {
 					// 	return console.log("not in vc");
