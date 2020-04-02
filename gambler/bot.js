@@ -6,8 +6,7 @@ var fs = require('fs');
 
 function checkMulti() {
     res = getResFromFile('multiRolls.txt');
-    console.log(res.length);
-    if (res.length != 0) {
+    if (res.length < 2) {
          return true;
     } else {
         return false;
