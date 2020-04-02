@@ -248,21 +248,21 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        for (i = 0; i < result.length; i++) {
 	                            var curr = JSON.parse(result[i]);
 	                            rolls.push(curr);
-	                            msg += (curr.roll + ' <- ' + bot.fetchUser(curr.user) + '\'s roll' + "\n");
+	                            msg += (curr.roll + ' <- ' + bot.users[curr.user].username + '\'s roll' + "\n");
 	                        }
 
 	                        var winner = getWinner(rolls);
 	                        if (winner.length > 1) {
-	                            var tied = bot.fetchUser(winner[0].user);
+	                            var tied = bot.users[winner[0].user].username;
 	                            for (i = 1; i < winner.length; i++) {
-	                                tied += (' & ' + bot.fetchUser(winner[i].user));
+	                                tied += (' & ' + bot.users[winner[i].user].username);
 	                            }
 	                            msg += 'THERE HAS BEEN A FUCKING TIE :/\nThe not so special wInnErS are ' + tied + '.';
 	                            msg += '\n\nPlay a tie breaker using the command \'$roll\' !';
 	                        
 	                        } else {
 	                            var winMsg = getWinMsg();
-	                            msg += (winMsg + bot.fetchUser(winner[0].user) + '!\n' + getLossMsg());
+	                            msg += (winMsg + bot.users[winner[0].user].username + '!\n' + getLossMsg());
 
 	                        }
 
@@ -341,7 +341,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
             	for (i=0; i < userIDs.length; i++) {
             		var curr = userIDs[i];
-            		var userName = bot.fetchUser(curr);
+            		var userName = bot.users[curr].username;
             		var balance = balances.curr;
             		msg += (userName + '\'s balance: 	₽' + balance.toString() + 'PP\n');
             	}
