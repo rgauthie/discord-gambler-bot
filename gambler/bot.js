@@ -2,6 +2,7 @@ var Discord = require('discord.io');
 var logger = require('winston');
 var auth = require('./auth.json');
 var fs = require('fs');
+var ffmpeg = require("ffmpeg");
 
 
 function checkMulti() {
@@ -287,20 +288,19 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     });
                 } else {
                 	var VCID = '313912537684901891';
-                	var song = './' + getStartAudio();
-                	
+                	var startAudio = './' + getStartAudio();
+                	var winAudio = './' + getWinAudio();
                 
                 	bot.joinVoiceChannel(VCID, function(err, events) {
 				        if (err) return console.error(err);
-				        events.on('speaking', function(userID, SSRC, speakingBool) {
-				            console.log("%s is " + (speakingBool ? "now speaking" : "done speaking"), userID );
-				        });
-
+				        // events.on('speaking', function(userID, SSRC, speakingBool) {
+				        //     console.log("%s is " + (speakingBool ? "now speaking" : "done speaking"), userID );
+				        // });
 				        bot.getAudioContext(VCID, function(err, stream) {
 				            if (err) return console.error(err);
-				            fs.createReadStream(song).pipe(stream, {end: false});
+				            fs.createReadStream(startAudio).pipe(stream, {end: false});
 				            stream.on('done', function() {
-				                fs.createReadStream(song).pipe(stream, {end: false});
+				                fs.createReadStream(startAudio).pipe(stream, {end: false});
 				            });
 				        });
 				    });
