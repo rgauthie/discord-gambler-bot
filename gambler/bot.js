@@ -348,7 +348,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                            var currUser = curr.user;
 	                            console.log("take from userid: " + currUser);
 	                            if (currUser != winner) {
-	                            	takeFromUser(curr.user, bettingAmt);
+	                            	console.log(getResFromFile('pogPoints.txt'));
+	                            	takeFromUser(currUser, bettingAmt);
 	                            }
 	                        }
 	                        
