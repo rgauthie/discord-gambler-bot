@@ -172,6 +172,14 @@ function takeFromUser(userID, amt) {
     return true;
 }
 
+function distFunds(winner, losers, bet) {
+	var amtWon = bet * losers.length;
+	payUser(winner, amtWon);
+	for (i = 0; i < losers.length; i++) {
+		takeFromUser(losers[i], bet);
+	}
+}
+
 
 function getWinMsg() {
 
@@ -327,9 +335,21 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                            msg += '\n\nPlay a tie breaker using the command \'$roll\' !';
 	                        
 	                        } else {
-	                           
-	                            msg += (getWinMsg() + bot.users[winner[0].user].username + '! Enjoy your ₽' + bettingAmt.toString() + 'PP\n' + getLossMsg());
-
+	                           	if (result.length > 1) {
+	                           		var winner = winner[0].user;
+									msg += (getWinMsg() + bot.users[winner].username + '! Enjoy your ₽' + bettingAmt.toString() + 'PP\n' + getLossMsg());
+	                        		var losers = [];
+	                        		for (i = 0; i < result.length; i++) {
+	                            		var curr = JSON.parse(result[i]);
+	                            		var currUser = curr.user;
+	                            		if (currUser != winner) {
+	                            			losers.push(currUser);
+	                            		}
+	                        		}
+	                        		distFunds(winner, losers, bettingAmt);
+								} else {
+									msg += (getWinMsg() + bot.users[winner[0].user].username + '! You don\'t win anything lonely loser.');
+								}
 	                        }
 
 	                        // playMultiSound("win");
@@ -337,17 +357,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                            to: channelID,
 	                            message: msg
 	                        });
-
-	                        var winner = winner[0].user;
-	                        var amtWon = bettingAmt * (result.length);
-	                        
-	                        for (i = 0; i < result.length; i++) {
-	                            var curr = JSON.parse(result[i]); 
-	                            var currUser = curr.user;
-	                            takeFromUser(currUser, bettingAmt);   
-	                        }
-	                        payUser(winner, amtWon);
-	                        
 
 	                    }, 15000);
 	                } else {
