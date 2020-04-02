@@ -109,7 +109,7 @@ function getUserBalance(userID) {
 	var res = getResFromFile('pogPoints.txt');
 	res = res.split('\n');
 	var userBalances = JSON.parse(res[1]);
-	return userBalances.userID
+	return userBalances[userID]
 }
 
 function getAllBalances() {
