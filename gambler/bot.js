@@ -6,8 +6,6 @@ var fs = require('fs');
 
 function checkMulti() {
     res = getResFromFile('multiRolls.txt');
-    console.log(res.length);
-    console.log(res);
     if (res.length != 0) {
          return true;
     } else {
@@ -140,14 +138,12 @@ function getMultiBet() {
 function payUser(userID, amt) {
 	var res = getResFromFile('pogPoints.txt');
 	res = res.split('\n');
-	console.log("BEFORE PAY:   " + res);
     
     var userBalances = JSON.parse(res[1]);
     var currBalance = parseFloat(userBalances[userID]);
     var newBalance = currBalance + amt;
     userBalances[userID] = newBalance;
     res[1] = JSON.stringify(userBalances);
-    console.log("AFTER PAY:    " + res);
 
     clearFile('pogPoints.txt');
     addToFile('pogPoints.txt', res.join('\n'));
@@ -156,16 +152,13 @@ function payUser(userID, amt) {
 
 function takeFromUser(userID, amt) {
 	var res = getResFromFile('pogPoints.txt');
-	console.log("RES BEFORE SPLIT:  " + res);
 	res = res.split('\n');
-	console.log("BEFORE TAKE:   " + res);
     
     var userBalances = JSON.parse(res[1]);
     var currBalance = parseFloat(userBalances[userID]);
     var newBalance = currBalance - amt;
     userBalances[userID] = newBalance;
     res[1] = JSON.stringify(userBalances);
-    console.log("AFTER TAKE:   " + res);
 
     clearFile('pogPoints.txt');
     addToFile('pogPoints.txt', res.join('\n'));
@@ -349,16 +342,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
 	                        	while (tieBreakerNeeded) {
 	                        		var tiedRoll = winner[0].roll;
-	                        		console.log('rolls:  ' + JSON.stringify(rolls));
 	                        		for (i = 0; i < rolls.length; i++) {
 	                        			if (rolls[i].roll == tiedRoll) {
-	                        				var currRoll = Math.floor(Math.random() * 2);
+	                        				var currRoll = Math.floor(Math.random() * 101);
 	                        				rolls[i].roll = currRoll;
 	                        			}
 	                        		}
-	                        		console.log('rolls after re:    ' + JSON.stringify(rolls));
 	                        		winner = getWinner(rolls);
-	                        		console.log('winRes: ' + JSON.stringify(winner));
 	                        		if (winner.length == 1) {
 	                        			
 	                        			tieBreakerNeeded = false;
@@ -394,7 +384,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                            message: msg
 	                        });
 
-	                    }, 5000);
+	                    }, 15000);
 	                } else {
 	                	var msg = user + ', you do not have enough Pog Points to bet that amount (₽' + bettingAmt.toString() + 'PP). Check your balance using \'$bank\'';
 	                	bot.sendMessage({
@@ -409,7 +399,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     if (!isAlreadyInMulti(userID)) {
                     	var bettingAmt = getMultiBet();
                     	if (checkValidBettingAmt(bettingAmt, userID)) {
-	                        var rand = Math.floor(Math.random() * 2);
+	                        var rand = Math.floor(Math.random() * 101);
 	                        var dict = {"user": userID, "roll": rand.toString()};
 	                        var msg = '\n' + JSON.stringify(dict);
 	                        addUserToMulti(userID);
