@@ -174,10 +174,23 @@ function takeFromUser(userID, amt) {
 
 function distFunds(winner, losers, bet) {
 	var amtWon = bet * losers.length;
-	//payUser(winner, amtWon);
-	for (i = 0; i < losers.length; i++) {
-	    takeFromUser(losers[i], bet);
+	var res = getResFromFile('pogPoints.txt');
+	res = res.split('\n');
+	var userBalances = JSON.parse(res[1]);
+	var currBalance = userBalances[winner];
+	currBalance += amtWon;
+	userBalances[winner] = currBalance;
+
+    for (i = 0; i < losers.length; i++) {	
+	    currBalance = userBalances[losers[i]];
+	    currBalance -= bet;
+	    userBalances[losers[i]] = currBalance;
 	}
+	res[1] = JSON.stringify(userBalances);
+		
+	clearFile('pogPoints.txt');
+    addToFile('pogPoints.txt', res.join('\n'));
+    return true;
 }
 
 
