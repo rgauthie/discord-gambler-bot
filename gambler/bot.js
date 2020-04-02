@@ -365,6 +365,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             if (result.length > 1) {
                            		
                            		var winner = winner[0].user;
+                           		for (i = 0; i< result.length; i++) {
+                           			var curr = JSON.parse(result[i])
+                           			msg += (curr.roll + ' <- ' + bot.users[curr.user].username + '\'s roll' + "\n");
+                           		}
 								msg += (getWinMsg() + bot.users[winner].username + '! Enjoy your ₽' + bettingAmt.toString() + 'PP\n' + getLossMsg());
                         		var losers = [];
                         		for (i = 0; i < result.length; i++) {
