@@ -36,11 +36,11 @@ function playMulti() {
     return res;
 }
 
-function isAlreadyInMulti(user) {
+function isAlreadyInMulti(userID) {
     var res = getResFromFile('multiRolls.txt');
     res = res.split('\n');
     var users = JSON.parse(res[0]);
-    return users.includes(user);
+    return users.includes(userID);
 }
 
 function addUserToMulti(user) {
@@ -255,8 +255,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        message: 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type \'$join\'\nCURRENT BET: ₽' + bettingAmt + 'PP'
 	                    });
 	                    
-	                    addToFile('multiRolls.txt', JSON.stringify([]));
-	                    addToFile('multiRolls.txt', '\n' + bettingAmt.toString());
+	                    addToFile('multiRolls.txt', JSON.stringify([]) + '\n' + bettingAmt.toString());
 	                    setTimeout(function() {
 
 	                        var result = playMulti(); 
