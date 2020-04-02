@@ -273,7 +273,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        });
 	                    }, 15000);
 	                } else {
-	                	var msg = user + ', you do not have enough Pog Points to bet that amount (₽' + bettingAmt.toString() 'PP). Check your balance using \'$bank\'';
+	                	var msg = user + ', you do not have enough Pog Points to bet that amount (₽' + bettingAmt.toString() + 'PP). Check your balance using \'$bank\'';
 	                	bot.sendMessage({
 	                        to: channelID,
 	                        message: msg
@@ -294,7 +294,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                    } else {
 	                    	bot.sendMessage({
                         	to: channelID,
-                        	message: user + ', you do not have enough Pog Points to bet that amount (₽' + bettingAmt.toString() 'PP). Check your balance using \'$bank\''
+                        	message: user + ', you do not have enough Pog Points to bet that amount (₽' + bettingAmt.toString() + 'PP). Check your balance using \'$bank\''
                     		});
 	                    }
                     }
