@@ -140,14 +140,14 @@ function getMultiBet() {
 
 function getWinMsg() {
 
-    var poss = ["AND THE STUPID FUCKING WINNER IS ", "POG, YOU WIN ", "UwU YOU WON ", "Pogggggers "];
+    var poss = ["AND THE STUPID FUCKING WINNER IS ", "POG, YOU WIN ", "UwU YOU WON ", "Pogggggers ", "PWNG BITCHES. The winner is "];
     return poss[Math.floor(Math.random() * poss.length)];
 
 }
 
 function getLossMsg() {
 
-    var poss = ["The rest of you are malding manlets"];
+    var poss = ["The rest of you are malding manlets", "Fuck everyone else", "Everyone else is dumb as hell", "@EveryoneElse: No pog, no pawg"];
     return poss[Math.floor(Math.random() * poss.length)];
 
 }
@@ -251,9 +251,14 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                  	//playMultiSound("start");
 
  					if (checkValidBettingAmt(parseFloat(bettingAmt), userID)) {
+ 						if (bettingAmt == 0) {
+ 							var msg = 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type \'$join\'\nNO BET';
+ 						} else {
+ 							var msg = 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type \'$join\'\nCURRENT BET: ₽' + bettingAmt + 'PP';
+ 						}
 	                    bot.sendMessage({
 	                        to: channelID,
-	                        message: 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type \'$join\'\nCURRENT BET: ₽' + bettingAmt + 'PP'
+	                        message: msg
 	                    });
 	                    
 	                    addToFile('multiRolls.txt', JSON.stringify([]) + '\n' + bettingAmt.toString());
@@ -335,7 +340,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             	if (checkUserRegistered(userID)) {
             		bot.sendMessage({
             			to: channelID,
-            			message: user + ', you are already registered! -> Use command \'$bank\' to check your current Pog Points.'
+            			message: user + ', you are already registered! -> Use command \'$bank\' to check your current Pog Point balance.'
             		});
             	} else {
             		if (registerUser(userID)) {
@@ -372,7 +377,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             		var balance = balances[curr];
             		msg += (userName + '\'s balance: 	₽' + balance.toString() + 'PP\n');
             	}
-            	bot.sendMessage({
+            	msg += '\nCURRENT EXCHANGE RATE: ₽10 / $1';
+            	bot.sendMessage({  
             		to: channelID,
             		message: msg
             	});
