@@ -439,7 +439,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'bank':
             	if (checkUserRegistered(userID)) {
             		var balance = getUserBalance(userID);
-            		var msg = user + '\'s balance: 	₽' + balance.toFixed(2) + 'PP';
+            		var msg = user + '\'s balance: 	₽' + parseFloat(balance).toFixed(2) + 'PP';
             	} else {
             		var msg = user + ', you do not have account at PoggyBank. Register for an account using \'$register\'';
             	}
@@ -457,7 +457,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             		var curr = userIDs[i];
             		var userName = bot.users[curr].username;
             		var balance = balances[curr];
-            		msg += (userName + '\'s balance: 	₽' + balance.toFixed(2) + 'PP\n');
+            		msg += (userName + '\'s balance: 	₽' + parseFloat(balance).toFixed(2) + 'PP\n');
             	}
             	msg += '-------------------\nCURRENT EXCHANGE RATE: ₽10 / $1';
             	bot.sendMessage({  
