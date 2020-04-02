@@ -353,7 +353,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        		for (i = 0; i < tied.length; i++) {
 	                        			var currUser = tied[i];
 	                        			var currRoll = Math.floor(Math.random() * 2);
-	                        			tiedRolls.push(JSON.parse({"user": currUser, "roll": currRoll.toString()}));
+	                        			tiedRolls.push(JSON.stringify({"user": currUser, "roll": currRoll.toString()}));
 	                        		}
 	                        		console.log('rolls after re:    ' + JSON.stringify(rolls));
 	                        		winner = getWinner(tiedRolls);
