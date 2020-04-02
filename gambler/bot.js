@@ -341,7 +341,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
             	for (i=0; i < userIDs.length; i++) {
             		var curr = userIDs[i];
-            		var userName = bot.users.get(curr);
+            		var userName = bot.fetchUser(curr);
             		var balance = balances.curr;
             		msg += (userName + '\'s balance: 	₽' + balance.toString() + 'PP\n');
             	}
