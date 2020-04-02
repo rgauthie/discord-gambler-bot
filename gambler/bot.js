@@ -103,7 +103,7 @@ function registerUser(userID) {
     res.total = serverTotal;
 
     clearFile('pogPoints.txt');
-    addToFile('pogPoints.txt', res.join('\n'));
+    addToFile('pogPoints.txt', JSON.stringify(res));
     return true;
 }
 
@@ -147,7 +147,7 @@ function payUser(userID, amt) {
     res.balance = JSON.stringify(userBalances);
 
     clearFile('pogPoints.txt');
-    addToFile('pogPoints.txt', res);
+    addToFile('pogPoints.txt', JSON.stringify(res));
     return true;
 }
 
@@ -162,7 +162,7 @@ function takeFromUser(userID, amt) {
     res.balance = JSON.stringify(userBalances);
 
     clearFile('pogPoints.txt');
-    addToFile('pogPoints.txt', res);
+    addToFile('pogPoints.txt', JSON.stringify(res));
     return true;
 }
 
