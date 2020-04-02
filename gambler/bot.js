@@ -313,7 +313,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        var rand = Math.floor(Math.random() * 101);
 	                        var dict = {"user": userID, "roll": rand.toString()};
 	                        var msg = '\n' + JSON.stringify(dict);
-	                        addUserToMulti(user);
+	                        addUserToMulti(userID);
 	                        addToFile('multiRolls.txt', msg);
 	                    } else {
 	                    	bot.sendMessage({
