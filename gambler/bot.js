@@ -112,8 +112,8 @@ function getUserBalance(userID) {
 	res = JSON.parse(res);
 	var userBalances = res.balance;
 	console.log(userBalances);
-	console.log(userBalances[userID]);
-	return userBalances[userID];
+	console.log(userBalances.userID);
+	return userBalances.userID;
 }
 
 function getAllBalances() {
