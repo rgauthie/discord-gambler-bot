@@ -217,7 +217,9 @@ function isNumber(str) {
   // could also coerce to string: str = ""+str
   return !isNaN(str) && !isNaN(parseFloat(str)) && (parseFloat(str) >= 0)
 }
-
+function chooseAudioEncoder(list) {
+	return 'ffmpeg';
+}
 
 // function playMultiSound(flag) {
 	
