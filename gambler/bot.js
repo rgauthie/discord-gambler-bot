@@ -156,6 +156,7 @@ function payUser(userID, amt) {
 
 function takeFromUser(userID, amt) {
 	var res = getResFromFile('pogPoints.txt');
+	console.log("RES BEFORE SPLIT:  " + res);
 	res = res.split('\n');
 	console.log("BEFORE TAKE:   " + res);
     
@@ -341,13 +342,15 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        var amtWon = bettingAmt * (result.length - 1);
 	                        payUser(winner, amtWon);
 	                        
-	                        //for (i = 0; i < result.length; i++) {
-	                            //var curr = JSON.parse(result[i]);
-	                            //var currUser = curr.user;
-	                            //if (currUser != winner) {
-	                            	//takeFromUser(curr.user, bettingAmt);
-	                            //}
-	                        //}
+	                        for (i = 0; i < result.length; i++) {
+	                            var curr = JSON.parse(result[i]);
+	                            console.log("user take from:  " + curr);
+	                            var currUser = curr.user;
+	                            console.log("take from userid: " + currUser);
+	                            if (currUser != winner) {
+	                            	takeFromUser(curr.user, bettingAmt);
+	                            }
+	                        }
 	                        
 
 	                    }, 15000);
