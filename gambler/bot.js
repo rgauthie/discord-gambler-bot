@@ -368,21 +368,21 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        } 
                             if (result.length > 1) {
                            		
-                           		var winner = winner[0].user;
+                           		var finalWinner = winner[0].user;
                            		for (i = 0; i< rolls.length; i++) {
                            			var curr = JSON.parse(rolls[i])
                            			msg += (curr.roll + ' <- ' + bot.users[curr.user].username + '\'s roll' + "\n");
                            		}
-								msg += (getWinMsg() + bot.users[winner].username + '! Enjoy your ₽' + bettingAmt.toString() + 'PP\n' + getLossMsg());
+								msg += (getWinMsg() + bot.users[finalWinner].username + '! Enjoy your ₽' + bettingAmt.toString() + 'PP\n' + getLossMsg());
                         		var losers = [];
                         		for (i = 0; i < result.length; i++) {
                             		var curr = JSON.parse(result[i]);
                             		var currUser = curr.user;
-                            		if (currUser != winner) {
+                            		if (currUser != finalWinner) {
                             			losers.push(currUser);
                             		}
                         		}
-                        		distFunds(winner, losers, bettingAmt);
+                        		distFunds(finalWinner, losers, bettingAmt);
 							} else {
 								msg += (getWinMsg() + bot.users[winner[0].user].username + '! You don\'t win anything lonely loser.');
 							}
