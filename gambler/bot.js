@@ -260,8 +260,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                    setTimeout(function() {
 
 	                        var result = playMulti(); 
+
 	                        result = result.split('\n');
 	                        result.shift();
+	                        console.log('result:    ' + result);
 
 	                        var rolls = [];
 	                        var msg = '';
@@ -269,9 +271,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        for (i = 0; i < result.length; i++) {
 	                            var curr = JSON.parse(result[i]);
 	                            rolls.push(curr);
-	                            console.log(curr.user);
-	                            console.log(bot.users);
-	                            console.log(bot.users[curr.user]);
+	                            console.log('curr.user:      ' + curr.user);
 	                            msg += (curr.roll + ' <- ' + bot.users[curr.user].username + '\'s roll' + "\n");
 	                        }
 
