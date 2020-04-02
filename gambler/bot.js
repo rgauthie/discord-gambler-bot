@@ -341,13 +341,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        var amtWon = bettingAmt * (result.length - 1);
 	                        payUser(winner, amtWon);
 	                        
-	                        for (i = 0; i < result.length; i++) {
-	                            var curr = JSON.parse(result[i]);
-	                            var currUser = curr.user;
-	                            if (currUser != winner) {
-	                            	takeFromUser(curr.user, bettingAmt);
-	                            }
-	                        }
+	                        //for (i = 0; i < result.length; i++) {
+	                            //var curr = JSON.parse(result[i]);
+	                            //var currUser = curr.user;
+	                            //if (currUser != winner) {
+	                            	//takeFromUser(curr.user, bettingAmt);
+	                            //}
+	                        //}
 	                        
 
 	                    }, 15000);
