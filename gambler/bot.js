@@ -77,7 +77,7 @@ function checkUserRegistered(userID) {
 	var res = getResFromFile('pogPoints.txt');
 	res = res.split('\n');
     var users = JSON.parse(res[0]);
-   	if (userID in users) {
+   	if (users.includes(userID)) {
    		return true;
    	} else {
    		return false;
