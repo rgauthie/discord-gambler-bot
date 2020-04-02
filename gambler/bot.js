@@ -140,12 +140,14 @@ function getMultiBet() {
 function payUser(userID, amt) {
 	var res = getResFromFile('pogPoints.txt');
 	res = res.split('\n');
+	console.log("BEFORE PAY:   " + res);
     
     var userBalances = JSON.parse(res[1]);
     var currBalance = parseFloat(userBalances[userID]);
     var newBalance = currBalance + amt;
     userBalances[userID] = newBalance;
     res[1] = JSON.stringify(userBalances);
+    console.log("AFTER PAY:    " + res);
 
     clearFile('pogPoints.txt');
     addToFile('pogPoints.txt', res.join('\n'));
@@ -155,12 +157,14 @@ function payUser(userID, amt) {
 function takeFromUser(userID, amt) {
 	var res = getResFromFile('pogPoints.txt');
 	res = res.split('\n');
+	console.log("BEFORE TAKE:   " + res);
     
     var userBalances = JSON.parse(res[1]);
     var currBalance = parseFloat(userBalances[userID]);
     var newBalance = currBalance - amt;
     userBalances[userID] = newBalance;
     res[1] = JSON.stringify(userBalances);
+    console.log("AFTER TAKE:   " + res);
 
     clearFile('pogPoints.txt');
     addToFile('pogPoints.txt', res.join('\n'));
