@@ -137,6 +137,36 @@ function getMultiBet() {
     return bet;
 }
 
+function payUser(userID, amt) {
+	var res = getResFromFile('pogPoints.txt');
+	res = res.split('\n');
+    
+    var userBalances = JSON.parse(res[1]);
+    var currBalance = parseFloat(userBalances[userID]);
+    var newBalance = currBalance + amt;
+    userBalances[userID] = newBalance;
+    res[1] = JSON.stringify(userBalances);
+
+    clearFile('pogPoints.txt');
+    addToFile('pogPoints.txt', res.join('\n'));
+    return true;
+}
+
+function takeFromUser(userID, amt) {
+	var res = getResFromFile('pogPoints.txt');
+	res = res.split('\n');
+    
+    var userBalances = JSON.parse(res[1]);
+    var currBalance = parseFloat(userBalances[userID]);
+    var newBalance = currBalance - amt;
+    userBalances[userID] = newBalance;
+    res[1] = JSON.stringify(userBalances);
+
+    clearFile('pogPoints.txt');
+    addToFile('pogPoints.txt', res.join('\n'));
+    return true;
+}
+
 
 function getWinMsg() {
 
@@ -252,9 +282,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
  					if (checkValidBettingAmt(parseFloat(bettingAmt), userID)) {
  						if (bettingAmt == 0) {
- 							var msg = 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type \'$join\'\nNO BET';
+ 							var msg = 'Roll ends in 15 seconds, lock in your spot! -> type \'$join\'\nCURRENT BET: NO BET';
  						} else {
- 							var msg = 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type \'$join\'\nCURRENT BET: ₽' + bettingAmt + 'PP';
+ 							var msg = 'Roll ends in 15 seconds, lock in your spot! -> type \'$join\'\nCURRENT BET: ₽' + bettingAmt + 'PP';
  						}
 	                    bot.sendMessage({
 	                        to: channelID,
@@ -292,8 +322,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                            msg += '\n\nPlay a tie breaker using the command \'$roll\' !';
 	                        
 	                        } else {
-	                            var winMsg = getWinMsg();
-	                            msg += (winMsg + bot.users[winner[0].user].username + '!\n' + getLossMsg());
+	                           
+	                            msg += (getWinMsg() + bot.users[winner[0].user].username + '! Enjoy your ₽' + bettingAmt.toString() + 'PP\n' + getLossMsg());
 
 	                        }
 
@@ -302,6 +332,20 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                            to: channelID,
 	                            message: msg
 	                        });
+
+	                        var winner = winner[0].user;
+	                        var amtWon = bettingAmt * (result.length - 1);
+	                        payUser(winner, amtWon);
+	                        
+	                        for (i = 0; i < result.length; i++) {
+	                            var curr = JSON.parse(result[i]);
+	                            var currUser = curr.user;
+	                            if (currUser != winner) {
+	                            	takeFromUser(curr.user, bettingAmt);
+	                            }
+	                        }
+	                        
+
 	                    }, 15000);
 	                } else {
 	                	var msg = user + ', you do not have enough Pog Points to bet that amount (₽' + bettingAmt.toString() + 'PP). Check your balance using \'$bank\'';
