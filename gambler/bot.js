@@ -334,36 +334,47 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        for (i = 0; i < result.length; i++) {
 	                            var curr = JSON.parse(result[i]);
 	                            rolls.push(curr);
-	                            console.log('curr.user:      ' + curr.user);
-	                            msg += (curr.roll + ' <- ' + bot.users[curr.user].username + '\'s roll' + "\n");
 	                        }
-
 	                        var winner = getWinner(rolls);
 	                        if (winner.length > 1) {
-	                            var tied = bot.users[winner[0].user].username;
-	                            for (i = 1; i < winner.length; i++) {
-	                                tied += (' & ' + bot.users[winner[i].user].username);
-	                            }
-	                            msg += 'THERE HAS BEEN A FUCKING TIE :/\nThe not so special wInnErS are ' + tied + '.';
-	                            msg += '\n\nPlay a tie breaker using the command \'$roll\' !';
-	                        
-	                        } else {
-	                           	if (result.length > 1) {
-	                           		var winner = winner[0].user;
-									msg += (getWinMsg() + bot.users[winner].username + '! Enjoy your ₽' + bettingAmt.toString() + 'PP\n' + getLossMsg());
-	                        		var losers = [];
-	                        		for (i = 0; i < result.length; i++) {
-	                            		var curr = JSON.parse(result[i]);
-	                            		var currUser = curr.user;
-	                            		if (currUser != winner) {
-	                            			losers.push(currUser);
-	                            		}
-	                        		}
-	                        		distFunds(winner, losers, bettingAmt);
-								} else {
-									msg += (getWinMsg() + bot.users[winner[0].user].username + '! You don\'t win anything lonely loser.');
-								}
+	                        	var tied = [];
+	                        	var tieBreakerNeeded = true;
+	                        	for (i = 0; i < winner.length; i++) {
+	                        		tied.push(winner[i].user);
+	                        	}
 	                        }
+
+	                        if (tieBreakerNeeded) {
+
+	                        	while (tieBreakerNeeded) {
+	                        		for (i = 0; i < tied; i++) {
+	                        			var currUser = tied[i];
+	                        			var currRoll = Math.floor(Math.random() * 2);
+	                        			rolls[currUser] = currRoll;
+	                        		}
+	                        		winner = getWinner(rolls);
+	                        		if (winner.length == 1) {
+	                        			tieBreakerNeeded = false;
+	                        		}
+	                        	}
+	                        } 
+                            if (result.length > 1) {
+                           		
+                           		var winner = winner[0].user;
+								msg += (getWinMsg() + bot.users[winner].username + '! Enjoy your ₽' + bettingAmt.toString() + 'PP\n' + getLossMsg());
+                        		var losers = [];
+                        		for (i = 0; i < result.length; i++) {
+                            		var curr = JSON.parse(result[i]);
+                            		var currUser = curr.user;
+                            		if (currUser != winner) {
+                            			losers.push(currUser);
+                            		}
+                        		}
+                        		distFunds(winner, losers, bettingAmt);
+							} else {
+								msg += (getWinMsg() + bot.users[winner[0].user].username + '! You don\'t win anything lonely loser.');
+							}
+	                        
 
 	                        // playMultiSound("win");
 	                        bot.sendMessage({
@@ -386,7 +397,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     if (!isAlreadyInMulti(userID)) {
                     	var bettingAmt = getMultiBet();
                     	if (checkValidBettingAmt(bettingAmt, userID)) {
-	                        var rand = Math.floor(Math.random() * 101);
+	                        var rand = Math.floor(Math.random() * 2);
 	                        var dict = {"user": userID, "roll": rand.toString()};
 	                        var msg = '\n' + JSON.stringify(dict);
 	                        addUserToMulti(userID);
