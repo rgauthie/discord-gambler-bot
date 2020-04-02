@@ -446,7 +446,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             		var balance = balances[curr];
             		msg += (userName + '\'s balance: 	₽' + balance.toString() + 'PP\n');
             	}
-            	msg += '\n-------------------\nCURRENT EXCHANGE RATE: ₽10 / $1';
+            	msg += '-------------------\nCURRENT EXCHANGE RATE: ₽10 / $1';
             	bot.sendMessage({  
             		to: channelID,
             		message: msg
