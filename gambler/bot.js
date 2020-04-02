@@ -286,22 +286,18 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: 'Roll already initiated! Join the roll with \'$join\''
                     });
                 } else {
-                	var voiceChannels = bot.channels;
-                	for (i=0;i<voiceChannels.length;i++) {
-                		var curr = voiceChannels[i];
-                		var currMembers = curr.members;
-                		if (currMembers.includes(userID)) {
-                			var vc = curr.id;
-                			break;
-                		}
-                	}
-                	if (vc) {
-                		try {
-                			var connection = vc.join();
-                		} catch (err) {
-                			console.log(err);
-                		}
-                	}
+                	var voiceChannel = bot.channels['313912537684901891'];
+                	
+                
+                	voiceChannel.join().then(connection =>{
+                		const dispatcher = connection.playFile('./' + getStartAudio());
+                		setTimeout(function() {
+                			dispatcher = connection.playFile('./' + getWinAudio());
+                			dispatcher.on('end', end => voiceChannel.leave());
+                		}, 14050);
+
+                	}).catch(err => console.log(err));
+         
                 	console.log(vc);
                 	//const channel = user.voiceChannel;
 					// if(!channel) {
@@ -390,7 +386,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         		}
                         		distFunds(finalWinner, losers, bettingAmt);
 							} else {
-								msg += (getWinMsg() + bot.users[winner[0].user].username + '! You don\'t win anything lonely loser.');
+								if (result.length == 1) {
+									msg += (getWinMsg() + bot.users[winner[0].user].username + '! You don\'t win anything lonely loser.');
+								} else {
+									msg += ('Nobody joined the roll. Try again using \'$mult\', then \'$join\'');
+								}
 							}
 	                        
 
