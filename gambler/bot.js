@@ -77,8 +77,8 @@ function getResFromFile(path) {
 
 function checkUserRegistered(userID) {
 	var res = getResFromFile('pogPoints.txt');
-	res = res.split('\n');
-    var users = JSON.parse(res[0]);
+	res = JSON.parse(res);
+    var users = res.users;
    	if (users.includes(userID)) {
    		return true;
    	} else {
@@ -88,19 +88,19 @@ function checkUserRegistered(userID) {
 
 function registerUser(userID) {
 	var res = getResFromFile('pogPoints.txt');
-	res = res.split('\n');
+	res = JSON.parse(res);
     
-    var users = JSON.parse(res[0]);
-    users.push(userID);
-    res[0] = JSON.stringify(users);
+    var usersList = res.users;
+    usersList.push(userID);
+    res.users = JSON.stringify(usersList);
     
-    var userBalances = JSON.parse(res[1]);
+    var userBalances = res.balance;
     userBalances[userID] = 100;
-    res[1] = JSON.stringify(userBalances);
+    res.balance = JSON.stringify(userBalances);
 
-    var serverTotal = parseInt(res[2]);
+    var serverTotal = res.total;
     serverTotal += 100;
-    res[2] = serverTotal.toString();
+    res.total = serverTotal;
 
     clearFile('pogPoints.txt');
     addToFile('pogPoints.txt', res.join('\n'));
@@ -109,16 +109,15 @@ function registerUser(userID) {
 
 function getUserBalance(userID) {
 	var res = getResFromFile('pogPoints.txt');
-	res = res.split('\n');
-	var userBalances = JSON.parse(res[1]);
-	return userBalances[userID]
+	res = JSON.parse(res);
+	var userBalances = res.balance;
+	return userBalances[userID];
 }
 
 function getAllBalances() {
 	var res = getResFromFile('pogPoints.txt');
-	res = res.split('\n');
-	var userBalances = JSON.parse(res[1]);
-	return userBalances
+	res = JSON.parse(res);
+	return res.balance;
 }
 
 function checkValidBettingAmt(bettingAmt, userID) {
@@ -139,36 +138,31 @@ function getMultiBet() {
 
 function payUser(userID, amt) {
 	var res = getResFromFile('pogPoints.txt');
-	res = res.split('\n');
-	console.log("BEFORE PAY:   " + res);
+	res = JSON.parse(res);
     
-    var userBalances = JSON.parse(res[1]);
-    var currBalance = parseFloat(userBalances[userID]);
-    var newBalance = currBalance + amt;
-    userBalances[userID] = newBalance;
-    res[1] = JSON.stringify(userBalances);
-    console.log("AFTER PAY:    " + res);
+    var userBalances = res.balance;
+    var currBalance = userBalances[userID];
+    currBalance += amt;
+    userBalances[userID] = currBalance;
+    res.balance = JSON.stringify(userBalances);
 
     clearFile('pogPoints.txt');
-    addToFile('pogPoints.txt', res.join('\n'));
+    addToFile('pogPoints.txt', res);
     return true;
 }
 
 function takeFromUser(userID, amt) {
 	var res = getResFromFile('pogPoints.txt');
-	console.log("RES BEFORE SPLIT:  " + res);
-	res = res.split('\n');
-	console.log("BEFORE TAKE:   " + res);
+	res = JSON.parse(res);
     
-    var userBalances = JSON.parse(res[1]);
-    var currBalance = parseFloat(userBalances[userID]);
-    var newBalance = currBalance - amt;
-    userBalances[userID] = newBalance;
-    res[1] = JSON.stringify(userBalances);
-    console.log("AFTER TAKE:   " + res);
+    var userBalances = res.balance;
+    var currBalance = userBalances[userID];
+    currBalance -= amt;
+    userBalances[userID] = currBalance;
+    res.balance = JSON.stringify(userBalances);
 
     clearFile('pogPoints.txt');
-    addToFile('pogPoints.txt', res.join('\n'));
+    addToFile('pogPoints.txt', res);
     return true;
 }
 
