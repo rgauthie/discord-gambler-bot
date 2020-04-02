@@ -355,7 +355,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        			var currRoll = Math.floor(Math.random() * 2);
 	                        			tiedRolls.push(JSON.stringify({"user": currUser, "roll": currRoll.toString()}));
 	                        		}
-	                        		console.log('rolls after re:    ' + JSON.stringify(rolls));
+	                        		console.log('rolls after re:    ' + JSON.stringify(tiedRolls));
 	                        		winner = getWinner(tiedRolls);
 	                        		console.log('winRes: ' + JSON.stringify(winner));
 	                        		if (winner.length == 1) {
@@ -372,7 +372,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                            		for (i = 0; i< rolls.length; i++) {
                            			//console.log('parse: '   + JSON.parse(rolls[i]));
                            			console.log('no parse: '  + rolls[i]);
-                           			console.log('rolls:  ' + rols[i]);
+                           			console.log('rolls:  ' + rolls[i]);
                            			var curr = JSON.parse(rolls[i]);
 
                            			msg += (curr.roll + ' <- ' + bot.users[curr.user].username + '\'s roll' + "\n");
