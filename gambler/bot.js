@@ -255,7 +255,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        if (winner.length > 1) {
 	                            var tied = bot.fetchUser(winner[0].user);
 	                            for (i = 1; i < winner.length; i++) {
-	                                tied += (' & ' + bot.fetchUser(winner[i].user);
+	                                tied += (' & ' + bot.fetchUser(winner[i].user));
 	                            }
 	                            msg += 'THERE HAS BEEN A FUCKING TIE :/\nThe not so special wInnErS are ' + tied + '.';
 	                            msg += '\n\nPlay a tie breaker using the command \'$roll\' !';
