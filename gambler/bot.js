@@ -280,11 +280,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             //     	var VCID = '313912537684901891';
             //     	var startAudio = getStartAudio();
             //     	var winAudio = getWinAudio();
-                
-
-
-
-
             //     	bot.joinVoiceChannel(VCID, (err) => {
             //     		if(err) return console.log(err);
 
@@ -372,7 +367,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 								if (result.length == 1) {
 									msg += (getWinMsg() + bot.users[winner[0].user].username + '! You don\'t win anything lonely loser.');
 								} else {
-									msg += ('Nobody joined the roll. Try again using \'$mult\', then \'$join\'');
+									msg += ('Nobody joined the roll. Try again using \'$multi\', then \'$join\'');
 								}
 							}
 	                        
@@ -427,7 +422,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             		if (registerUser(userID)) {
             			var msg = user + ', your pog account has been successfully created at PoggyBank. Check your account balance using \'$bank\'';
             		} else {
-            			var msg = user + ', error in your PogyBank account registration. Try again using \'$register\'';
+            			var msg = user + ', error in your PoggyBank account registration. Try again using \'$register\'';
             		}
             		bot.sendMessage({
             			to: channelID,
