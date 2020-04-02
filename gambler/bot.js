@@ -110,8 +110,9 @@ function registerUser(userID) {
 function getUserBalance(userID) {
 	var res = getResFromFile('pogPoints.txt');
 	res = JSON.parse(res);
-	console.log(res);
 	var userBalances = res.balance;
+	console.log(userBalances);
+	console.log(userBalances[userID]);
 	return userBalances[userID];
 }
 
