@@ -173,7 +173,7 @@ function getWinAudio() {
 // 			}).on("error", error => console.error(error));
 // 	}
 // }
-var noBet = ', you do not have enough Pog Points to bet that amount. Check your balance using \'$bank\'';
+
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
@@ -195,7 +195,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     // It will listen for messages that will start with `!`
     if (message.substring(0, 1) == '$') {
         var args = message.substring(1).trim().split(' ');
+        console.log(args);
         var cmd = args[0];
+        console.log(cmd);
    
         args = args.splice(1);
         switch(cmd) {
@@ -214,9 +216,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: 'Roll already initiated! Join the roll with \'$join\''
                     });
                 } else {
-                	if (args[1] != '' && args[1] != ' ' && cmd == 'multi') {
-        				bettingAmt = args[1];
-        			}
+                	
                 	//const channel = user.voiceChannel;
 					// if(!channel) {
 					// 	return console.log("not in vc");
@@ -273,7 +273,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        });
 	                    }, 15000);
 	                } else {
-	                	var msg = user + noBet;
+	                	var msg = user + ', you do not have enough Pog Points to bet that amount (₽' + bettingAmt.toString() 'PP). Check your balance using \'$bank\'';
 	                	bot.sendMessage({
 	                        to: channelID,
 	                        message: msg
@@ -284,7 +284,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'join':
                 if (checkMulti()) {
                     if (!isAlreadyInMulti(userID)) {
-                    	if (checkValidBettingAmt(getMultiBet(), userID)) {
+                    	var bettingAmt = getMultiBet();
+                    	if (checkValidBettingAmt(bettingAmt, userID)) {
 	                        var rand = Math.floor(Math.random() * 101);
 	                        var dict = {"user": userID, "roll": rand.toString()};
 	                        var msg = '\n' + JSON.stringify(dict);
@@ -293,7 +294,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                    } else {
 	                    	bot.sendMessage({
                         	to: channelID,
-                        	message: user + noBet
+                        	message: user + ', you do not have enough Pog Points to bet that amount (₽' + bettingAmt.toString() 'PP). Check your balance using \'$bank\''
                     		});
 	                    }
                     }
