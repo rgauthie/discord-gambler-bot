@@ -287,10 +287,14 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: 'Roll already initiated! Join the roll with \'$join\''
                     });
                 } else {
-                	var VCID = findVoiceChannelOfUser(userID);
+                	var VCID = '313912537684901891';
                 	var startAudio = getStartAudio();
                 	var winAudio = getWinAudio();
                 
+
+
+
+
                 	bot.joinVoiceChannel(VCID, (err) => {
                 		if(err) return console.log(err);
 
@@ -300,6 +304,18 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 				            playing.pipe(stream, {end: false});
 				        });
                 	});
+
+
+
+
+
+
+
+
+
+
+
+
 				       
 
  					if (checkValidBettingAmt(parseFloat(bettingAmt), userID)) {
