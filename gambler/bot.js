@@ -336,9 +336,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                            rolls.push(curr);
 	                        }
 	                        var winner = getWinner(rolls);
+	                        var tieBreakerNeeded = false;
+	                        var tied = [];
 	                        if (winner.length > 1) {
-	                        	var tied = [];
-	                        	var tieBreakerNeeded = true;
+	                    
+	                        	tieBreakerNeeded = true;
 	                        	for (i = 0; i < winner.length; i++) {
 	                        		tied.push(winner[i].user);
 	                        	}
@@ -347,11 +349,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        if (tieBreakerNeeded) {
 
 	                        	while (tieBreakerNeeded) {
+	                        		console.log('rolls:  ' + rolls);
 	                        		for (i = 0; i < tied; i++) {
 	                        			var currUser = tied[i];
 	                        			var currRoll = Math.floor(Math.random() * 2);
 	                        			rolls[currUser] = currRoll;
 	                        		}
+	                        		console.log('rolls after re:    ' + rolls);
 	                        		winner = getWinner(rolls);
 	                        		if (winner.length == 1) {
 	                        			tieBreakerNeeded = false;
@@ -382,7 +386,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                            message: msg
 	                        });
 
-	                    }, 15000);
+	                    }, 5000);
 	                } else {
 	                	var msg = user + ', you do not have enough Pog Points to bet that amount (₽' + bettingAmt.toString() + 'PP). Check your balance using \'$bank\'';
 	                	bot.sendMessage({
