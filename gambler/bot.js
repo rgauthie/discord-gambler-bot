@@ -348,20 +348,19 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        if (tieBreakerNeeded) {
 
 	                        	while (tieBreakerNeeded) {
-	                        		var tiedRolls = [];
+	                        		var tiedRoll = winner[0].roll;
 	                        		console.log('rolls:  ' + JSON.stringify(rolls));
-	                        		for (i = 0; i < tied.length; i++) {
-	                        			var currUser = tied[i];
-	                        			var currRoll = Math.floor(Math.random() * 2);
-	                        			tiedRolls.push({"user": currUser, "roll": currRoll.toString()});
+	                        		for (i = 0; i < rolls.length; i++) {
+	                        			if (rolls[i].roll == tiedRoll) {
+	                        				var currRoll = Math.floor(Math.random() * 2);
+	                        				rolls[i].roll = currRoll;
+	                        			}
 	                        		}
-	                        		console.log('rolls after re:    ' + JSON.stringify(tiedRolls));
-	                        		winner = getWinner(tiedRolls);
+	                        		console.log('rolls after re:    ' + JSON.stringify(rolls));
+	                        		winner = getWinner(rolls);
 	                        		console.log('winRes: ' + JSON.stringify(winner));
 	                        		if (winner.length == 1) {
-	                        			for (i=0; i < tiedRolls.length; i++) {
-	                        				rolls[tiedRolls[i].user] = tiedRolls[i].roll;
-	                        			}
+	                        			
 	                        			tieBreakerNeeded = false;
 	                        		}
 	                        	}
@@ -370,9 +369,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                            		
                            		var finalWinner = winner[0].user;
                            		for (i = 0; i < rolls.length; i++) {
-                           			//console.log('parse: '   + JSON.parse(rolls[i]));
-                           			console.log('no parse: '  + rolls[i]);
-                           			console.log('rolls:  ' + rolls[i]);
                            			var curr = rolls[i];
 
                            			msg += (curr.roll + ' <- ' + bot.users[curr.user].username + '\'s roll' + "\n");
