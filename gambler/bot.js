@@ -73,6 +73,69 @@ function getResFromFile(path) {
     return data.toString();
 }
 
+function checkUserRegistered(userID) {
+	var res = getResFromFile('pogPoints.txt');
+	res = res.split('\n');
+    var users = JSON.parse(res[0]);
+   	if (userID in users) {
+   		return true;
+   	} else {
+   		return false;
+   	}
+}
+
+function registerUser(userID) {
+	var res = getResFromFile('pogPoints.txt');
+	res = res.split('\n');
+    
+    var users = JSON.parse(res[0]);
+    users.push(userID);
+    res[0] = JSON.stringify(users);
+    
+    var userBalances = JSON.parse(res[1]);
+    userBalances[userID] = 100;
+    res[1] = JSON.stringify(userBalances);
+
+    var serverTotal = parseInt(res[2]);
+    serverTotal += 100;
+    res[2] = serverTotal.toString();
+
+    clearFile('pogPoints.txt');
+    addToFile('pogPoints.txt', res.join('\n'));
+    return true;
+}
+
+function getUserBalance(userID) {
+	var res = getResFromFile('pogPoints.txt');
+	res = res.split('\n');
+	var userBalances = JSON.parse(res[1]);
+	return userBalances.userID
+}
+
+function getAllBalances() {
+	var res = getResFromFile('pogPoints.txt');
+	res = res.split('\n');
+	var userBalances = JSON.parse(res[1]);
+	return userBalances
+}
+
+function checkValidBettingAmt(bettingAmt, userID) {
+	var userBal = getUserBalance(userID);
+	if (userBal >= bettingAmt) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function getMultiBet() {
+	var res = getResFromFile('multiRolls.txt');
+    res = res.split('\n');
+    var bet = JSON.parse(res[1]);
+    return bet;
+}
+
+
 function getWinMsg() {
 
     var poss = ["AND THE STUPID FUCKING WINNER IS ", "POG, YOU WIN ", "UwU YOU WON ", "Pogggggers "];
@@ -97,6 +160,7 @@ function getWinAudio() {
     return poss[Math.floor(Math.random() * poss.length)];
 }
 
+
 // function playMultiSound(flag) {
 	
 // 	if (flag == "start") {
@@ -109,8 +173,7 @@ function getWinAudio() {
 // 			}).on("error", error => console.error(error));
 // 	}
 // }
-
-
+var noBet = ', you do not have enough Pog Points to bet that amount. Check your balance using \'$bank\'';
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
@@ -131,9 +194,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
     if (message.substring(0, 1) == '$') {
-        var args = message.substring(1).split(' ');
+        var args = message.substring(1).trim().split(' ');
         var cmd = args[0];
-       
+   
         args = args.splice(1);
         switch(cmd) {
             // !ping
@@ -148,9 +211,12 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 if (checkMulti()) {
                     bot.sendMessage({
                         to: channelID,
-                        message: "Roll already initiated! Join the roll with $join"
+                        message: 'Roll already initiated! Join the roll with \'$join\''
                     });
                 } else {
+                	if (args[1] != '' && args[1] != ' ' && cmd == 'multi') {
+        				bettingAmt = args[1];
+        			}
                 	//const channel = user.voiceChannel;
 					// if(!channel) {
 					// 	return console.log("not in vc");
@@ -161,69 +227,131 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 					// } catch (err) {
 					// 	return console.log(err);
 					// }
-     //            	playMultiSound("start");
+                 	//playMultiSound("start");
+ 					if (checkValidBettingAmt(parseInt(bettingAmt), userID)) {
+	                    bot.sendMessage({
+	                        to: channelID,
+	                        message: 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type \'$join\'\nCURRENT BET: ₽' + bettingAmt + 'PP'
+	                    });
+	                    
+	                    addToFile('multiRolls.txt', JSON.stringify([]));
+	                    addToFile('multiRolls.txt', bettingAmt.toString())
+	                    setTimeout(function() {
 
-                    bot.sendMessage({
-                        to: channelID,
-                        message: 'Roll ends in 15 seconds, lock in your stupid fucking spot! -> type $join'
-                    });
-                    
-                    addToFile('multiRolls.txt', JSON.stringify([]));
-                    setTimeout(function() {
+	                        var result = playMulti(); 
+	                        result = result.split('\n');
+	                        result.shift();
 
-                        var result = playMulti(); 
-                        result = result.split('\n');
-                        result.shift();
+	                        var rolls = [];
+	                        var msg = '';
 
-                        var rolls = [];
-                        var msg = '';
+	                        for (i = 0; i < result.length; i++) {
+	                            var curr = JSON.parse(result[i]);
+	                            rolls.push(curr);
+	                            msg += (curr.roll + ' <- ' + bot.fetchUser(curr.user) + '\'s roll' + "\n");
+	                        }
 
-                        for (i = 0; i < result.length; i++) {
-                            var curr = JSON.parse(result[i]);
-                            rolls.push(curr);
-                            msg += (curr.roll + ' <- ' + curr.user + '\'s roll' + "\n");
-                        }
+	                        var winner = getWinner(rolls);
+	                        if (winner.length > 1) {
+	                            var tied = bot.fetchUser(winner[0].user);
+	                            for (i = 1; i < winner.length; i++) {
+	                                tied += (' & ' + bot.fetchUser(winner[i].user);
+	                            }
+	                            msg += 'THERE HAS BEEN A FUCKING TIE :/\nThe not so special wInnErS are ' + tied + '.';
+	                            msg += '\n\nPlay a tie breaker using the command \'$roll\' !';
+	                        
+	                        } else {
+	                            var winMsg = getWinMsg();
+	                            msg += (winMsg + bot.fetchUser(winner[0].user) + '!\n' + getLossMsg());
 
-                        var winner = getWinner(rolls);
-                        if (winner.length > 1) {
-                            var tied = winner[0].user;
-                            for (i = 1; i < winner.length; i++) {
-                                tied += (' & ' + winner[i].user);
-                            }
-                            msg += 'THERE HAS BEEN A FUCKING TIE :/\nThe not so special wInnErS are ' + tied + '.';
-                            msg += '\n\nPlay a tie breaker using the command $roll !';
-                        
-                        } else {
-                            var winMsg = getWinMsg();
-                            msg += (winMsg + winner[0].user + '!\n' + getLossMsg());
+	                        }
 
-                        }
-                        // playMultiSound("win");
-                        bot.sendMessage({
-                            to: channelID,
-                            message: msg
-                        });
-                    }, 15000);
-                }
+	                        // playMultiSound("win");
+	                        bot.sendMessage({
+	                            to: channelID,
+	                            message: msg
+	                        });
+	                    }, 15000);
+	                } else {
+	                	var msg = user + noBet;
+	                	bot.sendMessage({
+	                        to: channelID,
+	                        message: msg
+	                    });
+	                }
+	            }
                 break;
             case 'join':
                 if (checkMulti()) {
-                    if (!isAlreadyInMulti(user)) {
-                        var rand = Math.floor(Math.random() * 101);
-                        var dict = {"user": user, "roll": rand.toString()};
-                        var msg = '\n' + JSON.stringify(dict);
-                        addUserToMulti(user);
-                        addToFile('multiRolls.txt', msg);
+                    if (!isAlreadyInMulti(userID)) {
+                    	if (checkValidBettingAmt(getMultiBet(), userID)) {
+	                        var rand = Math.floor(Math.random() * 101);
+	                        var dict = {"user": userID, "roll": rand.toString()};
+	                        var msg = '\n' + JSON.stringify(dict);
+	                        addUserToMulti(user);
+	                        addToFile('multiRolls.txt', msg);
+	                    } else {
+	                    	bot.sendMessage({
+                        	to: channelID,
+                        	message: user + noBet;
+                    		});
+	                    }
                     }
                 } else {
                     bot.sendMessage({
                         to: channelID,
-                        message: "No party roll currently running :,(  -> initiate with $multi"
+                        message: 'No party roll currently running :,(  -> initiate with \'$multi\''
                     });
                 }
                 break;
+            case 'register':
+            	if (checkUserRegistered(userID)) {
+            		bot.sendMessage({
+            			to: channelID,
+            			message: user + ', you are already registered! -> Use command \'$bank\' to check your current Pog Points.'
+            		});
+            	} else {
+            		if (registerUser(userID)) {
+            			var msg = user + ', your pog account has been successfully created at PoggyBank. Check your account balance using \'$bank\'';
+            		} else {
+            			var msg = user + ', error in your PogyBank account registration. Try again using \'$register\'';
+            		}
+            		bot.sendMessage({
+            			to: channelID,
+            			message: msg
+            		});
+            	}
+            	break;
+            case 'bank':
+            	if (checkUserRegistered(userID)) {
+            		var balance = getUserBalance(userID);
+            		var msg = user + '\'s balance: 	₽' + balance.toString() + 'PP';
+            	} else {
+            		var msg = user + ', you do not have account at PoggyBank. Register for an account using \'$register\'';
+            	}
+            	bot.sendMessage({
+            		to: channelID,
+            		message: msg
+            	});
+            	break;
+            case 'bank-all':
+            	var balances = getAllBalances();
+            	var msg = 'PoggyBank balances:\n-------------------\n';
+            	var userIDs= balances.keys();
+
+            	for (i=0; i < userIDs.length; i++) {
+            		var curr = userIDs[i];
+            		var userName = bot.users.get(curr);
+            		var balance = balances.curr;
+            		msg += (userName + '\'s balance: 	₽' + balance.toString() + 'PP\n');
+            	}
+            	bot.sendMessage({
+            		to: channelID,
+            		message: msg
+            	});
+            	break;
             case 'help':
-                var msg = 'Gambler commands:\n\n\'$roll\' - Use to roll a random number between 0 and 100.\n\'$multi\' - Use to start a party roll, allows 15 seconds for any members to lock in their roll.\n\'$join\' - Used to lock in a roll during the 15 second party roll lock-in phase.\n\'$help\' - You\'re looking at it! Lists gambler commands and their uses.';
+                var msg = 'Gambler commands:\n\n\'$roll\' - Use to roll a random number between 0 and 100.\n\'$multi\' - Use to start a party roll, allows 15 seconds for any members to lock in their roll.\n\'$join\' - Used to lock in a roll during the 15 second party roll lock-in phase.\n\'$register\' - Used to register an account at PoggyBank.\n\'$bank\' - Used to display your PoggyBank account balance.\n\'$bank-all\' - Used to display the PoggyBank balance of all registered users.\n\'$help\' - You\'re looking at it! Lists gambler commands and their uses.';
                 bot.sendMessage({
                     to: channelID,
                     message: msg
