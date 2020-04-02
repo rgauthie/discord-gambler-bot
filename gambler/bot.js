@@ -286,7 +286,20 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: 'Roll already initiated! Join the roll with \'$join\''
                     });
                 } else {
-                	var vc = bot.channels;
+                	var voiceChannels = bot.channels;
+                	for (i=0;i<voiceChannels.length;i++) {
+                		var curr = voiceChannels[i];
+                		var currMembers = curr.members;
+                		if (currMembers.includes(userID)) {
+                			var vc = curr.id;
+                			break;
+                		}
+                	}
+                	if (vc) {
+                		try {
+                			var connection = vc.join();
+                		}
+                	}
                 	console.log(vc);
                 	//const channel = user.voiceChannel;
 					// if(!channel) {
