@@ -342,7 +342,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             	for (i=0; i < userIDs.length; i++) {
             		var curr = userIDs[i];
             		var userName = bot.users[curr].username;
-            		var balance = balances.curr;
+            		var balance = balances[curr];
             		msg += (userName + '\'s balance: 	₽' + balance.toString() + 'PP\n');
             	}
             	bot.sendMessage({
