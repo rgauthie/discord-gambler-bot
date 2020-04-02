@@ -212,7 +212,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         	} else {
         		bot.sendMessage({
                         to: channelID,
-                        message: '\''possBet.toString()'\'' + ' is not a valid betting amount. Try to bet again!'
+                        message: '\'' + possBet.toString() + '\'' + ' is not a valid betting amount. Try to bet again!'
                 });
                 return;
         	}
