@@ -298,6 +298,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 	if (vc) {
                 		try {
                 			var connection = vc.join();
+                		} catch (err) {
+                			console.log(err);
                 		}
                 	}
                 	console.log(vc);
