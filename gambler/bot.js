@@ -372,7 +372,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                            		for (i = 0; i< rolls.length; i++) {
                            			//console.log('parse: '   + JSON.parse(rolls[i]));
                            			console.log('no parse: '  + rolls[i]);
-                           			console.log('rolls:  ' + JSON.parse(rolls);
+                           			console.log('rolls:  ' + rols[i]);
                            			var curr = JSON.parse(rolls[i]);
 
                            			msg += (curr.roll + ' <- ' + bot.users[curr.user].username + '\'s roll' + "\n");
