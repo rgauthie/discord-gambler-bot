@@ -340,17 +340,13 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
 	                        var winner = winner[0].user;
 	                        var amtWon = bettingAmt * (result.length);
-	                        // payUser(winner, amtWon);
-	                        // console.log(getResFromFile('pogPoints.txt'));
 	                        
 	                        for (i = 0; i < result.length; i++) {
-	                            var curr = JSON.parse(result[i]);
-	                            
+	                            var curr = JSON.parse(result[i]); 
 	                            var currUser = curr.user;
-
-	                            takeFromUser(currUser, bettingAmt);
-	                            
-	                         }
+	                            takeFromUser(currUser, bettingAmt);   
+	                        }
+	                        payUser(winner, amtWon);
 	                        
 
 	                    }, 15000);
