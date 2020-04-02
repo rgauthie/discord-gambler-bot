@@ -326,7 +326,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        
 	                        result.shift();
 	                        result.shift();
-	                        console.log(result.length);
 
 	                        var rolls = [];
 	                        var msg = '';
@@ -349,16 +348,20 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        if (tieBreakerNeeded) {
 
 	                        	while (tieBreakerNeeded) {
+	                        		var tiedRolls = [];
 	                        		console.log('rolls:  ' + JSON.stringify(rolls));
 	                        		for (i = 0; i < tied; i++) {
 	                        			var currUser = tied[i];
 	                        			var currRoll = Math.floor(Math.random() * 2);
-	                        			rolls[currUser] = currRoll;
+	                        			tiedRolls.push(JSON.parse({"user": currUser, "roll": currRoll.toString()}));
 	                        		}
 	                        		console.log('rolls after re:    ' + JSON.stringify(rolls));
-	                        		winner = getWinner(rolls);
+	                        		winner = getWinner(tiedRolls);
 	                        		console.log('winRes: ' + JSON.stringify(winner));
 	                        		if (winner.length == 1) {
+	                        			for (i=0; i < tiedRolls.length; i++) {
+	                        				rolls[tiedRolls[i].user] = tiedRolls[i].roll;
+	                        			}
 	                        			break;
 	                        		}
 	                        	}
@@ -366,8 +369,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                             if (result.length > 1) {
                            		
                            		var winner = winner[0].user;
-                           		for (i = 0; i< result.length; i++) {
-                           			var curr = JSON.parse(result[i])
+                           		for (i = 0; i< rolls.length; i++) {
+                           			var curr = JSON.parse(rolls[i])
                            			msg += (curr.roll + ' <- ' + bot.users[curr.user].username + '\'s roll' + "\n");
                            		}
 								msg += (getWinMsg() + bot.users[winner].username + '! Enjoy your ₽' + bettingAmt.toString() + 'PP\n' + getLossMsg());
