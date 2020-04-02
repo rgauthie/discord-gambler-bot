@@ -265,6 +265,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        
 	                        result.shift();
 	                        result.shift();
+	                        console.log(result);
 
 	                        var rolls = [];
 	                        var msg = '';
