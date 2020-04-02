@@ -293,7 +293,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                    } else {
 	                    	bot.sendMessage({
                         	to: channelID,
-                        	message: user + noBet;
+                        	message: user + noBet
                     		});
 	                    }
                     }
