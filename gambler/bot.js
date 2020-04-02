@@ -197,8 +197,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var args = message.substring(1).trim().split(' ');
         console.log(args);
         var cmd = args[0];
-        console.log(cmd);
-   
+        if (cmd == 'multi') {
+        	var bettingAmt = parseInt(args[1]);
+   		}
         args = args.splice(1);
         switch(cmd) {
             // !ping
