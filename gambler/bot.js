@@ -350,7 +350,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        	while (tieBreakerNeeded) {
 	                        		var tiedRolls = [];
 	                        		console.log('rolls:  ' + JSON.stringify(rolls));
-	                        		for (i = 0; i < tied; i++) {
+	                        		for (i = 0; i < tied.length; i++) {
 	                        			var currUser = tied[i];
 	                        			var currRoll = Math.floor(Math.random() * 2);
 	                        			tiedRolls.push(JSON.parse({"user": currUser, "roll": currRoll.toString()}));
@@ -372,7 +372,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                            		for (i = 0; i< rolls.length; i++) {
                            			//console.log('parse: '   + JSON.parse(rolls[i]));
                            			console.log('no parse: '  + rolls[i]);
-                           			console.log('rolls:  ' + JSON.parse(rolls));
+                           			console.log('rolls:  ' + JSON.parse(rolls);
                            			var curr = JSON.parse(rolls[i]);
 
                            			msg += (curr.roll + ' <- ' + bot.users[curr.user].username + '\'s roll' + "\n");
