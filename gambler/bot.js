@@ -175,9 +175,9 @@ function takeFromUser(userID, amt) {
 function distFunds(winner, losers, bet) {
 	var amtWon = bet * losers.length;
 	payUser(winner, amtWon);
-	for (i = 0; i < losers.length; i++) {
-		takeFromUser(losers[i], bet);
-	}
+	// for (i = 0; i < losers.length; i++) {
+	// 	takeFromUser(losers[i], bet);
+	// }
 }
 
 
