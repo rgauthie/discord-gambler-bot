@@ -370,7 +370,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                            		
                            		var finalWinner = winner[0].user;
                            		for (i = 0; i< rolls.length; i++) {
-                           			console.log('parse: '   + JSON.parse(rolls[i]));
+                           			//console.log('parse: '   + JSON.parse(rolls[i]));
                            			console.log('no parse: '  + rolls[i]);
                            			var curr = JSON.parse(rolls[i]);
 
