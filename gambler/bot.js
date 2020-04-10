@@ -285,7 +285,6 @@ function isAlreadyPig(userID) {
 }
 
 
-
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
@@ -550,7 +549,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             	break;
             case 'paypig':
             	if(!isAlreadyPig()) {
-            		if(checkValidBettingAmt(bettingAmt, UserID)) {
+            		if(checkValidBettingAmt(bettingAmt, userID)) {
             			addPig(userID, bettingAmt);
             			bot.sendMessage({
                         	to: channelID,
