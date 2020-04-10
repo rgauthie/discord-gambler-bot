@@ -238,7 +238,7 @@ function isAlreadySimp() {
 }
 
 function startSimp(userID) {
-	addToFile('simp.txt', JSON.stringify({"simp": userID, "payPigs": []));
+	addToFile('simp.txt', JSON.stringify({"simp": userID, "payPigs": []);
 }
 
 function paySimp() {
