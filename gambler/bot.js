@@ -280,6 +280,9 @@ function paySimp() {
 	distFundsSimp(simp, pigs, donations);
     clearFile('simp.txt');
     var userName = bot.users[simp].username;
+    var amtPaid = donations.reduce(function(a, b){
+        return a + b;
+    }, 0);
     return userName + "has been given ₽" + amtPaid.toString() + "PP!"
 }
 
@@ -581,10 +584,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	            	if(!isAlreadyPig()) {
 	            		if(checkValidBettingAmt(bettingAmt, userID)) {
 	            			addPig(userID, bettingAmt);
-	            			bot.sendMessage({
-	                        	to: channelID,
-	                        	message: user + ', congratulation piggy! You donated (₽' + bettingAmt.toString() + 'PP). Check your new balance using \'$bank\''
-	                    	});
 	            		} else {
 	            			bot.sendMessage({
 	                        	to: channelID,
