@@ -221,8 +221,11 @@ function chooseAudioEncoder(list) {
 	return 'ffmpeg';
 }
 
-function deleteMessage(message, time_ms) {
-	message.delete(time_ms);
+function deleteMessage(channel, message, time_ms) {
+	bot.deleteMessage({
+		channelID: channel,
+		messageID: message
+	});
 }
 
 
@@ -268,7 +271,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         switch(cmd) {
             // !ping
             case 'roll':
-            	deleteMessage(message, 2000);
+            	deleteMessage(channelID, message, 2000);
                 var rand = Math.floor(Math.random() * 101);
                 bot.sendMessage({
                     to: channelID,
@@ -276,7 +279,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'multi':
-            	deleteMessage(message, 3000);
+            	deleteMessage(channelID, message, 2000);
                 if (checkMulti()) {
                     bot.sendMessage({
                         to: channelID,
@@ -396,7 +399,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	            }
                 break;
             case 'join':
-            	deleteMessage(message, 2000);
+            	deleteMessage(channelID, message, 2000);
                 if (checkMulti()) {
                     if (!isAlreadyInMulti(userID)) {
                     	var bettingAmt = getMultiBet();
@@ -421,7 +424,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 }
                 break;
             case 'register':
-            	deleteMessage(message, 2000);
+            	deleteMessage(channelID, message, 2000);
             	if (checkUserRegistered(userID)) {
             		bot.sendMessage({
             			to: channelID,
@@ -440,7 +443,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             	}
             	break;
             case 'bank':
-            	deleteMessage(message, 2000);
+            	deleteMessage(channelID, message, 2000);
             	if (checkUserRegistered(userID)) {
             		var balance = getUserBalance(userID);
             		var msg = user + '\'s balance: 	₽' + balance.toString() + 'PP';
@@ -453,7 +456,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             	});
             	break;
             case 'bank-all':
-            	deleteMessage(message, 2000);
+            	deleteMessage(channelID, message, 2000);
             	var balances = getAllBalances();
             	var msg = 'PoggyBank balances:\n-------------------\n';
             	var userIDs= Object.keys(balances);
@@ -471,7 +474,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             	});
             	break;
             case 'help':
-            	deleteMessage(message, 2000);
+            	
                 var msg = 'Gambler commands:\n\n\'$roll\' - Use to roll a random number between 0 and 100.\n\'$multi\' - Use to start a party roll, allows 15 seconds for any members to lock in their roll.\n\'$multi xx\' - Similar to \'$multi\', but enter amount to bet as xx. All Users who enter the roll will bet that amount. Winner will receive total betting pool, loser(s) will lose amount of bet.\n\'$join\' - Used to lock in a roll during the 15 second party roll lock-in phase.\n\'$register\' - Used to register an account at PoggyBank.\n\'$bank\' - Used to display your PoggyBank account balance.\n\'$bank-all\' - Used to display the PoggyBank balance of all registered users.\n\'$help\' - You\'re looking at it! Lists gambler commands and their uses.';
                 bot.sendMessage({
                     to: channelID,
