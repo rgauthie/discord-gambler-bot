@@ -611,9 +611,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
         }
-        bot.deleteMessage({
-					channelID: channel,
+     }
+     bot.deleteMessage({
+					channelID: channelID,
 					messageID: message.messageID
 		});
-     }
 });
