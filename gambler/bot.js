@@ -360,7 +360,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     to: channelID,
                     message: user + '\'s roll ->  ' + rand.toString()
                 });
-                
+                bot.deleteMessage({
+					channelID: channelID,
+					messageID: message.messageID
+				});
                 break;
             case 'multi':
             	
@@ -481,6 +484,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                    });
 	                }
 	            }
+	            bot.deleteMessage({
+					channelID: channelID,
+					messageID: message.messageID
+				});
                 break;
             case 'join':
             	
@@ -506,6 +513,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: 'No party roll is currently running :,(  -> initiate with \'$multi\''
                     });
                 }
+                bot.deleteMessage({
+					channelID: channelID,
+					messageID: message.messageID
+				});
                 break;
             case 'register':
             	
@@ -525,6 +536,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             			message: msg
             		});
             	}
+            	bot.deleteMessage({
+					channelID: channelID,
+					messageID: message.messageID
+				});
             	break;
             case 'bank':
             	
@@ -538,6 +553,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             		to: channelID,
             		message: msg
             	});
+            	bot.deleteMessage({
+					channelID: channelID,
+					messageID: message.messageID
+				});
             	break;
             case 'bank-all':
             	
@@ -556,6 +575,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             		to: channelID,
             		message: msg
             	});
+            	bot.deleteMessage({
+					channelID: channelID,
+					messageID: message.messageID
+				});
             	break;
             case 'simp':
             	if (!isAlreadySimp()) {
@@ -577,7 +600,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             		message: 'Sorry, ' + user + ', someone else is already simping. Wait your turn to beg.'
             		});
             	}
-
+            	bot.deleteMessage({
+					channelID: channelID,
+					messageID: message.messageID
+				});
             	break;
             case 'paypig':
             	if(isAlreadySimp()) {
@@ -602,18 +628,23 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	                        message: user + ', nobody is begging. Wait for a simp to beg or pig elsewhere!'
 	                    });
 	            }
+	            bot.deleteMessage({
+					channelID: channelID,
+					messageID: message.messageID
+				});
             	break;
             case 'help':
-                var msg = 'Gambler commands:\n\n\'$roll\' - Use to roll a random number between 0 and 100.\n\'$multi\' - Use to start a party roll, allows 15 seconds for any members to lock in their roll.\n\'$multi xx\' - Similar to \'$multi\', but enter amount to bet as xx. All Users who enter the roll will bet that amount. Winner will receive total betting pool, loser(s) will lose amount of bet.\n\'$join\' - Used to lock in a roll during the 15 second party roll lock-in phase.\n\'$register\' - Used to register an account at PoggyBank.\n\'$bank\' - Used to display your PoggyBank account balance.\n\'$bank-all\' - Used to display the PoggyBank balance of all registered users.\n\'$help\' - You\'re looking at it! Lists gambler commands and their uses.';
+                var msg = 'Gambler commands:\n\n\'$roll\' - Use to roll a random number between 0 and 100.\n\'$multi\' - Use to start a party roll, allows 15 seconds for any members to lock in their roll.\n\'$multi <amount>\' - Similar to \'$multi\', but enter an amount to bet. All Users who enter the roll will bet that amount. Winner will receive total betting pool, loser(s) will lose amount of bet.\n\'$join\' - Used to lock in a roll during the 15 second party roll lock-in phase.\n\'$register\' - Used to register an account at PoggyBank.\n\'$bank\' - Used to display your PoggyBank account balance.\n\'$bank-all\' - Used to display the PoggyBank balance of all registered users.\n\'$simp\' - Use to beg for money from other users.\n\'$paypig <amount>\' - Use to donate <amount> to the current simp.\n\'$help\' - You\'re looking at it! Lists gambler commands and their uses.';
                 bot.sendMessage({
                     to: channelID,
                     message: msg
                 });
+                bot.deleteMessage({
+					channelID: channelID,
+					messageID: message.messageID
+				});
                 break;
         }
      }
-     bot.deleteMessage({
-					channelID: channelID,
-					messageID: message.messageID
-		});
+     
 });
