@@ -273,6 +273,8 @@ function addPig(userID, donationAmt) {
 	newPig = {"pig": userID, "donation": donationAmt};
 	pigs.push(newPig);
 	res["payPigs"] = JSON.stringify(pigs);
+	clearFile('simp.txt');
+	addToFile('simp.txt', JSON.stringify(res));
 }
 
 function isAlreadyPig(userID) {
