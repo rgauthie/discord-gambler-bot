@@ -228,6 +228,66 @@ function deleteMessage(channel, message, time_ms) {
 	});
 }
 
+function isAlreadySimp() {
+    res = getResFromFile('simp.txt');
+    if (res.length != 0) {
+         return true;
+    } else {
+        return false;
+    }
+}
+
+function startSimp(userID) {
+	addToFile('simp.txt', JSON.stringify({"simp": userID, "payPigs": []));
+}
+
+function paySimp() {
+	res = getResFromFile('simp.txt');
+	res = JSON.parse(res);
+	simp = res["simp"];
+	payPigs = res["payPigs"];
+
+    if (payPigs.length > 0) {
+    	amtPaid = 0;
+    	for (i=0;i<payPigs.length;i++) {
+    		pig = payPigs[i]["pig"];
+    		amt = payPigs[i]["donation"];
+    		takeFromUser(pig, amt);
+    		amtPaid += amt;
+    	}
+    	payUser(simp, amtPaid);
+    }
+    clearFile('simp.txt');
+}
+
+
+function addPig(userID, donationAmt) {
+	res = getResFromFile('simp.txt');
+	res = JSON.parse(res);
+	pigs = res["payPigs"];
+
+	newPig = {"pig": userID, "donation": donationAmt};
+	pigs.append(newPig);
+	res["payPigs"] = JSON.stringify(pigs);
+}
+
+function isAlreadyPig(userID) {
+	res = getResFromFile('simp.txt');
+	res = JSON.parse(res);
+	pigs = res["payPigs"];
+	pigIDs = [];
+
+	for (i=0;i<pigs.length;i++) {
+		pigIDS.append(pigs[i]["pig"]);
+	}
+	if pigIDS.includes(userID) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -252,7 +312,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var args = message.substring(1).trim().split(' ');
         console.log(args);
         var cmd = args[0];
-        if (cmd == 'multi' && args.length > 1) {
+        if ((cmd == 'multi' && args.length > 1) || (cmd == 'paypig' && args.length > 1)) {
         	var possBet = args[1];
         	if (isNumber(possBet)) {
         		var bettingAmt = parseFloat(possBet);
@@ -473,8 +533,46 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             		message: msg
             	});
             	break;
+            case 'simp':
+            	if (!isAlreadySimp()) {
+            		startSimp(userID);
+            		bot.sendMessage({
+            		to: channelID,
+            		message: user + ' is trying to simp for you! Everyone has 10 seconds to donate using the command \'$paypig <amount>\''
+            		});
+            		setTimeout(function() {
+            			msg = paySimp();
+	                    }, 10000);
+            	} else {
+            		bot.sendMessage({
+            		to: channelID,
+            		message: 'Sorry, ' + user + ', someone else is already simping. Wait your turn to beg.'
+            		});
+            	}
+
+            	break;
+            case 'paypig':
+            	if(!isAlreadyPig()) {
+            		if(checkValidBettingAmt(bettingAmt, UserID)) {
+            			addPig(userID, bettingAmt);
+            			bot.sendMessage({
+                        	to: channelID,
+                        	message: user + ', congratulation piggy! You donated (₽' + bettingAmt.toString() + 'PP). Check your new balance using \'$bank\''
+                    	});
+            		} else {
+            			bot.sendMessage({
+                        	to: channelID,
+                        	message: user + ', you do not have enough Pog Points to pig for that amount (₽' + bettingAmt.toString() + 'PP). Check your balance using \'$bank\''
+                    	});
+            		}
+            	} else {
+            		bot.sendMessage({
+                        to: channelID,
+                        message: user + ', you already donated in this beg. Wait for a new simp to beg if you really want to donate again'
+                    });
+            	}
+            	break;
             case 'help':
-            	
                 var msg = 'Gambler commands:\n\n\'$roll\' - Use to roll a random number between 0 and 100.\n\'$multi\' - Use to start a party roll, allows 15 seconds for any members to lock in their roll.\n\'$multi xx\' - Similar to \'$multi\', but enter amount to bet as xx. All Users who enter the roll will bet that amount. Winner will receive total betting pool, loser(s) will lose amount of bet.\n\'$join\' - Used to lock in a roll during the 15 second party roll lock-in phase.\n\'$register\' - Used to register an account at PoggyBank.\n\'$bank\' - Used to display your PoggyBank account balance.\n\'$bank-all\' - Used to display the PoggyBank balance of all registered users.\n\'$help\' - You\'re looking at it! Lists gambler commands and their uses.';
                 bot.sendMessage({
                     to: channelID,
