@@ -280,7 +280,7 @@ function isAlreadyPig(userID) {
 	for (i=0;i<pigs.length;i++) {
 		pigIDS.append(pigs[i]["pig"]);
 	}
-	if pigIDS.includes(userID) {
+	if (pigIDS.includes(userID)) {
 		return true;
 	} else {
 		return false;
