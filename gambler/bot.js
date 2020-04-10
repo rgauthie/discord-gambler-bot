@@ -230,6 +230,7 @@ function deleteMessage(channel, message, time_ms) {
 
 function isAlreadySimp() {
     res = getResFromFile('simp.txt');
+    console.log(res.length);
     if (res.length != 0) {
          return true;
     } else {
