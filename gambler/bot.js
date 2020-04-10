@@ -270,7 +270,7 @@ function addPig(userID, donationAmt) {
 	var pigs = res["payPigs"];
 
 	newPig = {"pig": userID, "donation": donationAmt};
-	pigs.append(newPig);
+	pigs.push(newPig);
 	res["payPigs"] = JSON.stringify(pigs);
 }
 
