@@ -246,9 +246,10 @@ function paySimp() {
 	var res = JSON.parse(res);
 	var simp = res["simp"];
 	var payPigs = res["payPigs"];
+	var amtPaid = 0;
 
     if (payPigs.length > 0) {
-    	amtPaid = 0;
+    	
     	for (i=0;i<payPigs.length;i++) {
     		pig = payPigs[i]["pig"];
     		amt = payPigs[i]["donation"];
@@ -258,6 +259,8 @@ function paySimp() {
     	payUser(simp, amtPaid);
     }
     clearFile('simp.txt');
+    var userName = bot.users[simp].username;
+    return userName + "has been given ₽" + amtPaid.toString() + "PP!"
 }
 
 
@@ -564,7 +567,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             	} else {
             		bot.sendMessage({
                         to: channelID,
-                        message: user + ', you already donated in this beg. Wait for a new simp to beg if you really want to donate again'
+                        message: user + ', you already donated in this beg. Wait for a new simp to beg if you want to donate again!'
                     });
             	}
             	break;
