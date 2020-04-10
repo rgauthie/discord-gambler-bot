@@ -188,6 +188,29 @@ function distFunds(winner, losers, bet) {
     return true;
 }
 
+function distFundsSimp(simp, pigs, donations) {
+	var donation = donations.reduce(function(a, b){
+        return a + b;
+    }, 0);
+    
+    var res = getResFromFile('pogPoints.txt');
+	res = res.split('\n');
+	var userBalances = JSON.parse(res[1]);
+	var currBalance = userBalances[simp];
+	currBalance += donation;
+	userBalances[simp] = currBalance;
+
+	for (i=0;i<pigs.length;i++) {
+		currBalance = userBalances[pigs[i]];
+		currBalance -= donations[i];
+		userBalances[pigs[i]] = currBalance;
+	}
+	res[1] = JSON.stringify(userBalances);
+	clearFile('pogPoints.txt');
+    addToFile('pogPoints.txt', res.join('\n'));
+    return true;
+}
+
 
 function getWinMsg() {
 
@@ -247,20 +270,14 @@ function paySimp() {
 	var res = JSON.parse(res);
 	var simp = res["simp"];
 	var payPigs = res["payPigs"];
-	console.log(res);
-	console.log(simp);
-	var amtPaid = 0;
+	var pigs = [];
+	var donations = [];
+	for (i=0;i<payPigs.length;i++) {
+		pigs.push(payPigs[i]["pig"]);
+		donations.push(payPigs[i]["donation"]);
+	}
 
-    if (payPigs.length > 0) {
-    	
-    	for (i=0;i<payPigs.length;i++) {
-    		pig = payPigs[i]["pig"];
-    		amt = payPigs[i]["donation"];
-    		takeFromUser(pig, amt);
-    		amtPaid += amt;
-    	}
-    	payUser(simp, amtPaid);
-    }
+	distFundsSimp(simp, pigs, donations);
     clearFile('simp.txt');
     var userName = bot.users[simp].username;
     return userName + "has been given ₽" + amtPaid.toString() + "PP!"
