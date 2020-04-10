@@ -355,15 +355,15 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         switch(cmd) {
             // !ping
             case 'roll':
-            	deleteMessage(channelID, message.messageID, 2000);
                 var rand = Math.floor(Math.random() * 101);
                 bot.sendMessage({
                     to: channelID,
                     message: user + '\'s roll ->  ' + rand.toString()
                 });
+                
                 break;
             case 'multi':
-            	deleteMessage(channelID, message.messageID, 2000);
+            	
                 if (checkMulti()) {
                     bot.sendMessage({
                         to: channelID,
@@ -483,7 +483,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 	            }
                 break;
             case 'join':
-            	deleteMessage(channelID, message.messageID, 2000);
+            	
                 if (checkMulti()) {
                     if (!isAlreadyInMulti(userID)) {
                     	var bettingAmt = getMultiBet();
@@ -508,7 +508,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 }
                 break;
             case 'register':
-            	deleteMessage(channelID, message.messageID, 2000);
+            	
             	if (checkUserRegistered(userID)) {
             		bot.sendMessage({
             			to: channelID,
@@ -527,7 +527,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             	}
             	break;
             case 'bank':
-            	deleteMessage(channelID, message.messageID, 2000);
+            	
             	if (checkUserRegistered(userID)) {
             		var balance = getUserBalance(userID);
             		var msg = user + '\'s balance: 	₽' + balance.toString() + 'PP';
@@ -540,7 +540,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             	});
             	break;
             case 'bank-all':
-            	deleteMessage(channelID, message.messageID, 2000);
+            	
             	var balances = getAllBalances();
             	var msg = 'PoggyBank balances:\n-------------------\n';
             	var userIDs= Object.keys(balances);
@@ -610,6 +610,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: msg
                 });
                 break;
-         }
+        }
+        bot.deleteMessage({
+					channelID: channel,
+					messageID: message.messageID
+		});
      }
 });
