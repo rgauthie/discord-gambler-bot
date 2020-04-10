@@ -246,6 +246,7 @@ function paySimp() {
 	var res = JSON.parse(res);
 	var simp = res["simp"];
 	var payPigs = res["payPigs"];
+	console.log(payPigs);
 	var amtPaid = 0;
 
     if (payPigs.length > 0) {
