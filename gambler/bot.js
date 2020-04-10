@@ -551,25 +551,32 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
             	break;
             case 'paypig':
-            	if(!isAlreadyPig()) {
-            		if(checkValidBettingAmt(bettingAmt, userID)) {
-            			addPig(userID, bettingAmt);
-            			bot.sendMessage({
-                        	to: channelID,
-                        	message: user + ', congratulation piggy! You donated (₽' + bettingAmt.toString() + 'PP). Check your new balance using \'$bank\''
-                    	});
-            		} else {
-            			bot.sendMessage({
-                        	to: channelID,
-                        	message: user + ', you do not have enough Pog Points to pig for that amount (₽' + bettingAmt.toString() + 'PP). Check your balance using \'$bank\''
-                    	});
-            		}
-            	} else {
-            		bot.sendMessage({
-                        to: channelID,
-                        message: user + ', you already donated in this beg. Wait for a new simp to beg if you want to donate again!'
-                    });
-            	}
+            	if(isAlreadySimp) {
+	            	if(!isAlreadyPig()) {
+	            		if(checkValidBettingAmt(bettingAmt, userID)) {
+	            			addPig(userID, bettingAmt);
+	            			bot.sendMessage({
+	                        	to: channelID,
+	                        	message: user + ', congratulation piggy! You donated (₽' + bettingAmt.toString() + 'PP). Check your new balance using \'$bank\''
+	                    	});
+	            		} else {
+	            			bot.sendMessage({
+	                        	to: channelID,
+	                        	message: user + ', you do not have enough Pog Points to pig for that amount (₽' + bettingAmt.toString() + 'PP). Check your balance using \'$bank\''
+	                    	});
+	            		}
+	            	} else {
+	            		bot.sendMessage({
+	                        to: channelID,
+	                        message: user + ', you already donated in this beg. Wait for a new simp to beg if you want to donate again!'
+	                    });
+	            	}
+	            } else {
+	            	bot.sendMessage({
+	                        to: channelID,
+	                        message: user + ', nobody is begging. Wait for a simp to beg or pig elsewhere!'
+	                    });
+	            }
             	break;
             case 'help':
                 var msg = 'Gambler commands:\n\n\'$roll\' - Use to roll a random number between 0 and 100.\n\'$multi\' - Use to start a party roll, allows 15 seconds for any members to lock in their roll.\n\'$multi xx\' - Similar to \'$multi\', but enter amount to bet as xx. All Users who enter the roll will bet that amount. Winner will receive total betting pool, loser(s) will lose amount of bet.\n\'$join\' - Used to lock in a roll during the 15 second party roll lock-in phase.\n\'$register\' - Used to register an account at PoggyBank.\n\'$bank\' - Used to display your PoggyBank account balance.\n\'$bank-all\' - Used to display the PoggyBank balance of all registered users.\n\'$help\' - You\'re looking at it! Lists gambler commands and their uses.';
