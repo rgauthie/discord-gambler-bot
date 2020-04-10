@@ -275,16 +275,13 @@ function isAlreadyPig(userID) {
 	var res = getResFromFile('simp.txt');
 	var res = JSON.parse(res);
 	var pigs = res["payPigs"];
-	var pigIDs = [];
 
 	for (i=0;i<pigs.length;i++) {
-		pigIDS.append(pigs[i]["pig"]);
+		if(pigs[i]["pig"] == userID) {
+			return true;
+		}
 	}
-	if (pigIDS.includes(userID)) {
-		return true;
-	} else {
-		return false;
-	}
+	return false;
 }
 
 
