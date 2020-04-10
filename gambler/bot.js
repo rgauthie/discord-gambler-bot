@@ -139,6 +139,7 @@ function getMultiBet() {
 function payUser(userID, amt) {
 	var res = getResFromFile('pogPoints.txt');
 	res = res.split('\n');
+	console.log("res:  " + res);
     
     var userBalances = JSON.parse(res[1]);
     var currBalance = parseFloat(userBalances[userID]);
