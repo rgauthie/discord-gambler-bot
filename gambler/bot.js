@@ -230,7 +230,6 @@ function deleteMessage(channel, message, time_ms) {
 
 function isAlreadySimp() {
     res = getResFromFile('simp.txt');
-    console.log(res.length);
     if (res.length != 0) {
          return true;
     } else {
@@ -552,7 +551,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
             	break;
             case 'paypig':
-            	if(isAlreadySimp) {
+            	if(isAlreadySimp()) {
 	            	if(!isAlreadyPig()) {
 	            		if(checkValidBettingAmt(bettingAmt, userID)) {
 	            			addPig(userID, bettingAmt);
