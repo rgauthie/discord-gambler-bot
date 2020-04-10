@@ -541,6 +541,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             		});
             		setTimeout(function() {
             			msg = paySimp();
+            			bot.sendMessage({
+            				to: channelID,
+            				message: msg
+            			});
 	                    }, 10000);
             	} else {
             		bot.sendMessage({
