@@ -242,10 +242,10 @@ function startSimp(userID) {
 }
 
 function paySimp() {
-	res = getResFromFile('simp.txt');
-	res = JSON.parse(res);
-	simp = res["simp"];
-	payPigs = res["payPigs"];
+	var res = getResFromFile('simp.txt');
+	var res = JSON.parse(res);
+	var simp = res["simp"];
+	var payPigs = res["payPigs"];
 
     if (payPigs.length > 0) {
     	amtPaid = 0;
@@ -262,9 +262,9 @@ function paySimp() {
 
 
 function addPig(userID, donationAmt) {
-	res = getResFromFile('simp.txt');
-	res = JSON.parse(res);
-	pigs = res["payPigs"];
+	var res = getResFromFile('simp.txt');
+	var res = JSON.parse(res);
+	var pigs = res["payPigs"];
 
 	newPig = {"pig": userID, "donation": donationAmt};
 	pigs.append(newPig);
@@ -272,10 +272,10 @@ function addPig(userID, donationAmt) {
 }
 
 function isAlreadyPig(userID) {
-	res = getResFromFile('simp.txt');
-	res = JSON.parse(res);
-	pigs = res["payPigs"];
-	pigIDs = [];
+	var res = getResFromFile('simp.txt');
+	var res = JSON.parse(res);
+	var pigs = res["payPigs"];
+	var pigIDs = [];
 
 	for (i=0;i<pigs.length;i++) {
 		pigIDS.append(pigs[i]["pig"]);
