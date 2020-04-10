@@ -272,7 +272,7 @@ function addPig(userID, donationAmt) {
 
 	newPig = {"pig": userID, "donation": donationAmt};
 	pigs.push(newPig);
-	res["payPigs"] = JSON.stringify(pigs);
+	res["payPigs"] = pigs;
 	clearFile('simp.txt');
 	addToFile('simp.txt', JSON.stringify(res));
 }
