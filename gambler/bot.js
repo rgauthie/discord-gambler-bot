@@ -337,7 +337,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
         var guildID = bot.channels[channelID].guild_id;
         var server = bot.servers[guildID];
-        console.log(JSON.stringify(server));
+        console.log(JSON.stringify(server, null, 2));
         var users = server.members;
         //console.log(JSON.stringify(users));
 
