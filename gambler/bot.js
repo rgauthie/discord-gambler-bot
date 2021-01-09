@@ -279,11 +279,10 @@ function paySimp() {
 
     distFundsSimp(simp, pigs, donations);
     clearFile('simp.txt');
-    var userName = bot.users[simp].username;
     var amtPaid = donations.reduce(function(a, b){
         return a + b;
     }, 0);
-    return userName + "has been given ₽" + amtPaid.toString() + "PP!"
+    return " has been given ₽" + amtPaid.toString() + "PP!"
 }
 
 
@@ -336,6 +335,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var args = message.substring(1).trim().split(' ');
         console.log(args);
         var cmd = args[0];
+        var guildID = bot.channels[channelID].guild_id;
+        var server = bot.servers[guildID];
+        var users = server.members;
         if ((cmd == 'multi' && args.length > 1) || (cmd == 'paypig' && args.length > 1)) {
             var possBet = args[1];
             if (isNumber(possBet)) {
@@ -448,9 +450,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                                 for (i = 0; i < rolls.length; i++) {
                                     var curr = rolls[i];
 
-                                    msg += (curr.roll + ' <- ' + bot.users[curr.user].username + '\'s roll' + "\n");
+                                    msg += (curr.roll + ' <- ' + users[curr.user].username + '\'s roll' + "\n");
                                 }
-                                msg += (getWinMsg() + bot.users[finalWinner].username + '! Enjoy your ₽' + bettingAmt.toString() + 'PP\n' + getLossMsg());
+                                msg += (getWinMsg() + users[finalWinner].username + '! Enjoy your ₽' + bettingAmt.toString() + 'PP\n' + getLossMsg());
                                 var losers = [];
                                 for (i = 0; i < result.length; i++) {
                                     var curr = JSON.parse(result[i]);
@@ -462,7 +464,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                                 distFunds(finalWinner, losers, bettingAmt);
                             } else {
                                 if (result.length == 1) {
-                                    msg += (getWinMsg() + bot.users[winner[0].user].username + '! You don\'t win anything lonely loser.');
+                                    msg += (getWinMsg() + users[winner[0].user].username + '! You don\'t win anything lonely loser.');
                                 } else {
                                     msg += ('Nobody joined the roll. Try again using \'$multi\', then \'$join\'');
                                 }
@@ -563,11 +565,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 var balances = getAllBalances();
                 var msg = 'PoggyBank balances:\n-------------------\n';
                 var userIDs= Object.keys(balances);
-                var servers = bot.servers;
-                console.log(servers.toString());
+
+                console.log(guildID);
                 for (i=0; i < userIDs.length; i++) {
                     var curr = userIDs[i];
-                    var userName = bot.users[curr].username;
+                    var userName = users[curr].username;
                     var balance = balances[curr];
                     msg += (userName + '\'s balance:    ₽' + balance.toString() + 'PP\n');
                 }
@@ -589,7 +591,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message: user + ' is trying to simp for you! Everyone has 10 seconds to donate using the command \'$paypig <amount>\''
                     });
                     setTimeout(function() {
-                        msg = paySimp();
+                        msg = user + paySimp();
                         bot.sendMessage({
                             to: channelID,
                             message: msg
