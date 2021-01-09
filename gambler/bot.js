@@ -116,7 +116,6 @@ function getUserBalance(userID) {
 function getAllBalances() {
     var res = getResFromFile('pogPoints.txt');
     res = res.split('\n');
-    console.log(res);
     var userBalances = JSON.parse(res[1]);
     return userBalances
 }
@@ -335,9 +334,14 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var args = message.substring(1).trim().split(' ');
         console.log(args);
         var cmd = args[0];
+
         var guildID = bot.channels[channelID].guild_id;
+        console.log(guildID);
         var server = bot.servers[guildID];
+        console.log(JSON.stringify(server));
         var users = server.members;
+        console.log(JSON.stringify(users));
+
         if ((cmd == 'multi' && args.length > 1) || (cmd == 'paypig' && args.length > 1)) {
             var possBet = args[1];
             if (isNumber(possBet)) {
@@ -566,7 +570,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 var msg = 'PoggyBank balances:\n-------------------\n';
                 var userIDs= Object.keys(balances);
 
-                console.log(guildID);
                 for (i=0; i < userIDs.length; i++) {
                     var curr = userIDs[i];
                     var userName = users[curr].username;
