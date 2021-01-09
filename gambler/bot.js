@@ -337,8 +337,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
         var guildID = bot.channels[channelID].guild_id;
         var server = bot.servers[guildID];
+        console.log(JSON.stringify(server));
         var users = server.members;
-        console.log(JSON.stringify(users));
+        //console.log(JSON.stringify(users));
 
         if ((cmd == 'multi' && args.length > 1) || (cmd == 'paypig' && args.length > 1)) {
             var possBet = args[1];
