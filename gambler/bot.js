@@ -563,7 +563,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 var balances = getAllBalances();
                 var msg = 'PoggyBank balances:\n-------------------\n';
                 var userIDs= Object.keys(balances);
-                console.log(bot);
+                var servers = bot.servers;
+                console.log(servers.toString());
                 for (i=0; i < userIDs.length; i++) {
                     var curr = userIDs[i];
                     var userName = bot.users[curr].username;
